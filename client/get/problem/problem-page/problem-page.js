@@ -1,10 +1,8 @@
 var problem;
 Template.problemPage.helpers({
-    pushIdToPage: function(id){
-        if(id){
-     problem = Problems.findOne({_id:id});
-         Meteor.subscribe('pictures',problem);
-        }
+    pushIdToPage: function(){
+        var id = this._id;
+     problem = Problems.findOne({_id:id});       Meteor.subscribe('pictures',problem);
     },
     Picture: function(){
         return Pictures.find({problem:problem});}

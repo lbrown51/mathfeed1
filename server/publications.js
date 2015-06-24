@@ -4,7 +4,6 @@ Meteor.publish("problems", function() {
 });
 
 Meteor.publish('pictures', function(problem){
-    var user = Meteor.users.findOne({_id:this.userId}); 
     return Pictures.find({problem:problem}); 
 });
 
