@@ -1,0 +1,15 @@
+<template name="layout">
+    {{#if currentUser}}
+    {{> header}}
+    {{> yield}}
+    {{> footer}}
+    {{else}}
+          <nav>
+    <div class="nav-wrapper">
+      <a href="#" id="login" class="brand-logo center">Login</a>
+    </div>
+  </nav>     
+    {{/if}}
+
+    
+</template>
