@@ -3,7 +3,8 @@ Meteor.publish("problems", function() {
     return Problems.find({user:user});
 });
 
-Meteor.publish('pictures', function(problem){
-    return Pictures.find({problem:problem}); 
+Meteor.publish('pictures', function(problemId){
+    
+    return Pictures.find({problemId:problemId}); 
 });
 

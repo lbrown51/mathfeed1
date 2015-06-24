@@ -1,6 +1,13 @@
 #problemForm{
  display: none;   
-    
+}
+
+#profileForm{
+ display:none;   
+}
+
+#profileFormCheck{
+ display:none;   
 }
 
 img{
@@ -12,6 +19,3 @@ img{
     background-color:#b53f51;
 }
 
-footer .page-footer{
- background-color:#b53f51;
-}
