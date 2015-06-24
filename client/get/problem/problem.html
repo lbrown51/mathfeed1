@@ -1,6 +1,11 @@
 <template name="problem">
     <li>
       <div class="collapsible-header">{{title}}</div>
-      <div class="collapsible-body"><p>{{description}}</p></div>
+        <div class="collapsible-body"><p>{{description}}</p>
+        </div>
+        <div class="collapsible-body">
+           <a class="toProblemPage" href="/get/{{_id}}"><i  class="material-icons medium">forward</i></a>
+            
+            </div>
     </li>
 </template>
