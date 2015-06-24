@@ -3,3 +3,9 @@ Template.get.helpers({
        return Problems.find();
    }
 });
+
+Template.get.events({
+    "click #showAddForm": function(){
+        $('#problemForm').show("fast");
+    }
+});

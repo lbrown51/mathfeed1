@@ -1,16 +1,28 @@
 <template name="problemForm">
     <div id="problemForm" class="row">
     <form class="col s12">
-      <div class="input-field col s12">
-            <input id="title" type="text" class="validate">
+      <div class="indigo-text input-field col s12">
+            <input id="title" type="text">
           <label for="title">Title for Problem</label>
         </div>
-        <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field indigo-text col s12">
+            <select>
+                <option value="141">141</option>
+                <option value="142">142</option>
+                <option value="143">143</option>
+                <option value="161">161</option>
+                <option value="162">162</option>
+                <option value="165">165</option>
+            </select>
+            <label>Choose your Class</label>
+        </div>
+        <div class="indigo-text input-field col s12">
           <textarea id="description" class="materialize-textarea"></textarea>
           <label for="description">Description for Problem</label>
         </div>
-      </div>
+        <div class="col s2 offset-s5">
+            <i id="cake" class="material-icons indigo-text small">cake</i>
+        </div>
     </form>
   </div>
 </template>
