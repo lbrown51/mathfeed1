@@ -1,9 +1,13 @@
 Meteor.publish("problems", function() {
-    var user = Meteor.users.findOne({_id:this.userId});
-    return Problems.find({$or: [{user:user},{out:true}]});
+    return Problems.find({$or: [{userId:this.userId},{out:true}]});
 });
 
 Meteor.publish('pictures', function(problemId){   
 return Pictures.find({problemId:problemId}); 
 });
 
+
+Meteor.publish('comments', function(pictureId)
+               {  
+    return Comments.find({pictureId:pictureId}); 
+});
