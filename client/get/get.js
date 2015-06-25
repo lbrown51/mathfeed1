@@ -1,6 +1,11 @@
 Template.get.helpers({
    Problems: function(){
-       return Problems.find();
+           var user = Meteor.user();
+       var cursor = Problems.findOne({$where: function(){
+    if(this.user._id === user._id){
+       return true;}
+       }});
+       return Problems.find({user:cursor.user});
    }
 });
 

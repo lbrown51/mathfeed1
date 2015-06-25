@@ -19,7 +19,13 @@ document.getElementById("pictureInput").click();
         var numberOfFiles = 0;
 
         fileReader.onload = function(fileLoadedEvent){     
-    Meteor.call("insertPicture",fileLoadedEvent.target.result,problem._id); 
+    Meteor.call("insertPicture",fileLoadedEvent.target.result,problem._id,function(error,result){
+          if(error){
+            Materialize.toast('Your photo has not been entered into the thingy because '+error, 4000);
+          } else {
+              Materialize.toast('Your photo has been entered into the thingy', 4000);
+          }
+        }); 
             if(numberOfFiles<files.length){
  fileReader.readAsDataURL(files[numberOfFiles++]);
             }        
@@ -28,6 +34,12 @@ document.getElementById("pictureInput").click();
  fileReader.readAsDataURL(files[numberOfFiles++]);
     },
     "click #sendOut": function(){
-     Meteor.call("sendOutProblem",problem);     
+     Meteor.call("sendOutProblem",problem,function(error,result){
+          if(error){
+            Materialize.toast('Your phto has not been entered into the thingy because '+error, 4000);
+          } else {
+              Materialize.toast('Your thingy has been shared across the thingyverse', 4000);
+          }
+        });      
     }
 });
