@@ -11,3 +11,8 @@ Meteor.publish('comments', function(pictureId)
                {  
     return Comments.find({pictureId:pictureId}); 
 });
+
+Meteor.publish('markups', function(pictureId)
+               {  
+    return Markups.find({pictureId:pictureId}); 
+});

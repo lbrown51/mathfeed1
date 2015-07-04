@@ -1,0 +1,43 @@
+<template name="picture">
+    <div class="col s12 m6">
+        <div class="card indigo">
+            <div class="card-image">
+                <div class="image">
+                    <a href='/picture/{{_id}}'> <img src="{{data}}"></a>
+                </div>            
+                
+                {{addImageWatch}}
+                <a class="activator" href="#"><div class="col activator  s2 offset-s5">
+                    <i class="white-text material-icons small">comment</i>
+                </div></a>
+        </div>
+            
+            
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"><i class="material-icons small">close</i></span>
+            <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="comment" class="materialize-textarea"></textarea>
+          <label for="comment">Add a Comment</label>
+        </div>
+          <div class="col s12">
+              <div class="col offset-s2">
+                <a class="btn indigo waves-effect waves-light" id="addComment">Add Comment
+  </a>
+              </div>
+          </div>
+      </div>
+    </form>
+  </div>
+            {{pushIdForComments}}
+            <ul class="collection">
+            {{#each Comment}}
+            {{> comment}}
+            {{/each}}
+            </ul>
+        </div>
+      </div>
+    </div>
+</template>
