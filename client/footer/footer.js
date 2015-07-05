@@ -1,6 +1,10 @@
 Template.footer.helpers({
     userName: function(){
-     return Meteor.user().profile.name;   
+     return Meteor.user().profile.name; 
+        Problems.find().forEach(function(problem){
+    console.log(this);
+    Meteor.subscribe('pictures', problem._id);
+});
     }
 });
 

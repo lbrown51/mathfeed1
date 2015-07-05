@@ -1,5 +1,3 @@
-
-
 Template.picture.events({
    "click #addComment": function(){
     var comment = $('#comment').val();
@@ -13,7 +11,6 @@ Template.picture.events({
 Template.picture.helpers({
     pushIdForComments: function(){
    Meteor.subscribe('comments',this._id);
-        Meteor.subscribe('markups',this._id);
 
 },
     Comment: function(){
