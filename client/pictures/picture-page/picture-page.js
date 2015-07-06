@@ -1,20 +1,42 @@
+var resizeOverlay = function(){
+$('canvas').width($('.image').width());
+              $('canvas').height($('.image').height());
+       var imageP = $('.image').position();
+$('canvas').css({top:imageP.top, left:imageP.left});
+       
+};
+
+$(window).resize(function(){
+    resizeOverlay(); 
+});
+
+
 var context;
 Template.picturePage.helpers({
     employThis: function(){
         $('ul.tabs').tabs();
         context = this;
+        Meteor.subscribe('markups',this._id);
     },
+    
     problemTitle: function(){
      ofProblem = Problems.findOne({_id:this.problemId});
         if(typeof ofProblem !== 'undefined'){
         return ofProblem.title;}
     },
+    
     problemId: function(){
         ofProblem = Problems.findOne({_id:this.problemId});
         if(typeof ofProblem !== 'undefined'){
         return ofProblem._id;}
-    }
+    },
+    
+    Markup: function(){
+     return Markups.find();   
+    },
+    
 });
+
 
 Template.picturePage.helpers(function(){
 });
@@ -29,8 +51,13 @@ document.getElementById("pictureInput").click();
         var fileReader = new FileReader();
         var numberOfFiles = 0;
 
-        fileReader.onload = function(fileLoadedEvent){     
- Meteor.call("upsertMarkup",fileLoadedEvent.target.result,context,Meteor.userId());
+        fileReader.onload = function(fileLoadedEvent){
+            $('#addPictureComment').click(function(){
+                var pictureComment = $('#pictureComment').val();
+Meteor.call("insertMarkup",fileLoadedEvent.target.result,context,Meteor.userId(),pictureComment);
+                $('#pictureComment').val('');
+            });
+ 
             if(numberOfFiles<files.length){
  fileReader.readAsDataURL(files[numberOfFiles++]);
             }        
@@ -41,21 +68,12 @@ document.getElementById("pictureInput").click();
     
     "click #addMarkup": function(){
         var markup = $('#markup').val();
-        Meteor.call('upsertMarkup',markup,context,Meteor.userId());
+       console.log(typeof markup); Meteor.call('insertMarkup',markup,context,Meteor.userId());
+        $('#markup').val('');
     }
 });
 
-//var resizeOverlay = function(){
-//$('.overlay').width($('.image').width());
-//              $('.overlay').height($('.image').height());
-//       var imageP = $('.image').position();
-//$('.overlay').css({top:imageP.top, left:imageP.left, position:"absolute"});
-//       
-//};
-//
-//$(window).resize(function(){
-//    resizeOverlay(); 
-//});
+
 //
 //var xClick;
 //var yClick;

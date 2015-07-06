@@ -5,8 +5,9 @@
           <div class="card">
             <div class="card-content indigo-text text">
                 <span class="card-title indigo-text"><a href="/get/{{problemId}}">{{problemTitle}}</a></span>
-              <img src={{data}}>
+              <img class="image" src={{data}}>
               </div>
+              
              <div class="card-action">
               <div class="col s12 ">
                 <ul class="tabs">
@@ -25,8 +26,24 @@
                      </div>
                  </div>
                  
-            <div  id="pictureMark" class="col s12"> <input style="display:none" type="file" id="pictureInput" accept="image/*"></div>
+            <div  id="pictureMark" class="col s12"> 
+                 <div class="input-field col s12">
+          <textarea id="pictureComment"  style="color:#51b53f;" class="materialize-textarea"></textarea>
+          <label style="color:#51b53f;" for="comment">Add a Comment</label>
+        </div>
+                    <div class="col center-align s12">
+                            <a  style="color: #51b53f;" class="indigo btn waves-effect waves-light" id="addPictureComment">Add Mark
+  </a>
+                     </div>
+                <input style="display:none" type="file" id="pictureInput" accept="image/*"></div>
+                <ul class="collection">
+                    {{#each Markup}}
+                        {{> markupItem}}
+                    {{/each}}
+                    
+                </ul>
               </div>
+
           </div>
         </div>
     </div>

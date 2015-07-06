@@ -13,6 +13,6 @@ Meteor.publish('comments', function(pictureId)
 });
 
 Meteor.publish('markups', function(pictureId)
-               {  
+               {
     return Markups.find({pictureId:pictureId}); 
 });
