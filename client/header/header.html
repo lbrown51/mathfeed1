@@ -3,7 +3,7 @@
     <div class="nav-wrapper">
     <div class="row valign-wrapper">
         <div class="col s2">
-            <a href="#" data-activates="mobile-demo" class="valign button-collapse small"><i class="material-icons">menu</i></a>
+            <a href="{{pathFor route='profile'}}" data-activates="mobile-demo" class="valign button-collapse small"><i class="material-icons">menu</i></a>
         </div>
         <div class="col s2 offset-s3">
             <a href="/" class="addQtip center-align valign"><i class="material-icons small">cake</i></a>
@@ -11,9 +11,9 @@
     </div>    
          
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="/give">Give</a></li>
-        <li><a href="/get">Get</a></li>
-        <li><a href="/help">Help</a></li>
+        <li><a href="{{pathFor route='give'}}">Give</a></li>
+        <li><a href="{{pathFor route='get'}}">Get</a></li>
+        <li><a href="{{pathFor route='help'}}">Help</a></li>
       </ul>
     </div>
   </nav>

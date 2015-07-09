@@ -3,12 +3,18 @@
    <div class="row">
     <div class="col s12">
           <div class="card">
-            <div class="card-content indigo-text text">
-                <span class="card-title indigo-text"><a href="/get/{{problemId}}">{{problemTitle}}</a></span>
-              <img class="image" src={{data}}>
+            <div class=" center-align card-content indigo-text text">
+                <span class="card-title indigo-text"><a href="{{pathFor problemPage}}" >{{problemTitle}}</a></span>
+              <img class="image" height="515" width="650" src="{{data}}">
               </div>
               
              <div class="card-action">
+                 <ul class="collection">
+                    {{#each Markup}}
+                        {{> markupItem}}
+                    {{/each}}
+                    
+                </ul>
               <div class="col s12 ">
                 <ul class="tabs">
                     <li class="tab col s6"><a class="active" href="#commentMark">Comment</a></li>
@@ -36,25 +42,10 @@
   </a>
                      </div>
                 <input style="display:none" type="file" id="pictureInput" accept="image/*"></div>
-                <ul class="collection">
-                    {{#each Markup}}
-                        {{> markupItem}}
-                    {{/each}}
-                    
-                </ul>
+                
               </div>
 
           </div>
         </div>
     </div>
 </template>
-
-<!--
-
-
-                <canvas id="canvas" class="overlay">
-
-                </canvas>
-
-                </div>
--->

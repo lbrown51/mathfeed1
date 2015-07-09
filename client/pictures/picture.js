@@ -11,10 +11,13 @@ Template.picture.events({
 Template.picture.helpers({
     pushIdForComments: function(){
    Meteor.subscribe('comments',this._id);
-
 },
     Comment: function(){
      return Comments.find({pictureId:this._id});   
+    },
+    
+    getPicture: function(){
+        return this;
     }
 });
                              

@@ -1,7 +1,7 @@
 <template name="problem">
     <li id={{_id}}>
       <div class="collapsible-header">{{title}}</div>
-        <div class="collapsible-body"><a class="toProblemPage" href="/get/{{_id}}"><p>{{description}}</p></a>
+        <div class="collapsible-body"><a class="toProblemPage" href="{{pathFor route='problemPage'}}"><p>{{description}}</p></a>
             </div>
          </li>
 </template>

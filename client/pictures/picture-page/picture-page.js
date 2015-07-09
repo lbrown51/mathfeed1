@@ -10,15 +10,19 @@ $(window).resize(function(){
     resizeOverlay(); 
 });
 
-
 var context;
+var picture;
+Template.picturePage.onRendered(function(){
+   $('ul.tabs').tabs();
+    Meteor.subscribe('markups',this.data._id);
+ Meteor.subscribe('pictures',null, this.data._id);
+ });
+
 Template.picturePage.helpers({
     employThis: function(){
-        $('ul.tabs').tabs();
-        context = this;
-        Meteor.subscribe('markups',this._id);
-    },
-    
+
+    },               
+                  
     problemTitle: function(){
      ofProblem = Problems.findOne({_id:this.problemId});
         if(typeof ofProblem !== 'undefined'){
@@ -33,13 +37,17 @@ Template.picturePage.helpers({
     
     Markup: function(){
      return Markups.find();   
-    },
+    },   
     
+    data: function(){
+        picture = Pictures.findOne({_id:this._id});     
+        if(typeof picture !== 'undefined'){
+            return picture.data;
+            }
+    }
 });
 
 
-Template.picturePage.helpers(function(){
-});
 
 Template.picturePage.events({
     "click #pictureClick": function(){
@@ -54,7 +62,7 @@ document.getElementById("pictureInput").click();
         fileReader.onload = function(fileLoadedEvent){
             $('#addPictureComment').click(function(){
                 var pictureComment = $('#pictureComment').val();
-Meteor.call("insertMarkup",fileLoadedEvent.target.result,context,Meteor.userId(),pictureComment);
+Meteor.call("insertMarkup",fileLoadedEvent.target.result,this._id,Meteor.userId(),pictureComment,null);
                 $('#pictureComment').val('');
             });
  
@@ -67,38 +75,26 @@ Meteor.call("insertMarkup",fileLoadedEvent.target.result,context,Meteor.userId()
     },
     
     "click #addMarkup": function(){
+        var context=this;
         var markup = $('#markup').val();
-       console.log(typeof markup); Meteor.call('insertMarkup',markup,context,Meteor.userId());
-        $('#markup').val('');
-    }
+        var addText = $('<p id="finished" class="indigo-text">Add your mark by clicking a location on the image</p>');
+        $('#addMarkup').after(addText);
+        $('#addMarkup').attr('id','finish');
+               $('#markup').val('');
+        
+ $('.image').css('cursor','pointer').click(function(event){
+            var x = event.pageX;
+            var y = event.pageY;
+            var position = [x,y];
+        $('#addMarkup').attr('id','addPictureComment');
+Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
+            //(data,pictureId,userId, pictureComment,position)
+        $('#finished').remove();
+        $('.image').css('cursor','default');
+        });
+
+    },
 });
 
 
-//
-//var xClick;
-//var yClick;
-//
-//"click canvas": function(event){
-//        xClick = $(event)[0].offsetX;
-//        yClick = $(event)[0].offsetY;
-//        $('.hidden').show('fast');
-//    },
-//    
-//    "click #addMarkup": function(){
-//        var comment = $('#markup').val();
-//         context = $(".overlay")[0].getContext('2d');      
-//    context.fillStyle = "white";
-//context.fillText(comment,xClick,yClick);
-//      var canvas = document.getElementById("canvas");
-// var data = canvas.toDataURL("image/jpeg", 1.0);
-//        console.log(this);
-//     Meteor.call("upsertMarkup",data,this);
-//    }
-//Template.picture.onRendered(function(){
-//   $('img').imagesLoaded(function(){
-//       resizeOverlay();
-//   }); 
-//    
-//});
 
-//        Meteor.subscribe('markups',this._id);
