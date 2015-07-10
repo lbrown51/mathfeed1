@@ -56,13 +56,33 @@ document.getElementById("pictureInput").click();
     
      "change #pictureInput": function(){
             var files = $('#pictureInput')[0].files;
+                var context = this;
+
         var fileReader = new FileReader();
         var numberOfFiles = 0;
 
         fileReader.onload = function(fileLoadedEvent){
             $('#addPictureComment').click(function(){
                 var pictureComment = $('#pictureComment').val();
-Meteor.call("insertMarkup",fileLoadedEvent.target.result,this._id,Meteor.userId(),pictureComment,null);
+        var addText = $('<p id="finished" class="indigo-text">Add your mark by clicking a location on the image</p>');
+        $('#addPictureComment').after(addText);
+ $('#addPictureComment').attr('id','finish');
+         $('#pictureComment').val('');
+                
+                $('.image').css('cursor','pointer').click(function(event){
+            var x = event.offsetX;
+            var y = event.offsetY;
+            var position = [x,y]; $('#finish').attr('id','addPictureComment');
+$('#addPictureComment').show();
+Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
+            //(data,pictureId,userId, pictureComment,position)
+        $('#finished').remove();
+        $('.image').css('cursor','default');
+        $('.image').unbind('click');
+        });
+                
+                
+
                 $('#pictureComment').val('');
             });
  
@@ -83,14 +103,16 @@ Meteor.call("insertMarkup",fileLoadedEvent.target.result,this._id,Meteor.userId(
                $('#markup').val('');
         
  $('.image').css('cursor','pointer').click(function(event){
-            var x = event.pageX;
-            var y = event.pageY;
+            var x = event.offsetX;
+            var y = event.offsetY;
             var position = [x,y];
-        $('#addMarkup').attr('id','addPictureComment');
+        $('#finish').attr('id','addMarkup');
+$('#addMarkup').show();
 Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
             //(data,pictureId,userId, pictureComment,position)
         $('#finished').remove();
         $('.image').css('cursor','default');
+        $('.image').unbind('click');
         });
 
     },
