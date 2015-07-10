@@ -1,5 +1,5 @@
 <template name="markupItem">
-    <li id="{{_id}}" class="collection-item {{#if isImage}} image {{/if}}">
+    <li id="{{_id}}" class="collection-item {{#if isImage}} markImage {{else}} comment {{/if}}">
         {{#if pictureComment}}
         {{pictureComment}}
         {{else}}

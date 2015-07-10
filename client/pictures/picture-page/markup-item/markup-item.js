@@ -22,7 +22,7 @@ Template.markupItem.helpers({
 
 
 Template.markupItem.events({
-    "click .collection-item": function(event){
+    "click .comment": function(event){
         if(this.position){  $(event.toElement).addClass('active');
         var context = this;
         var tooltip = $('#'+context._id).qtip({
@@ -36,7 +36,12 @@ Template.markupItem.events({
             },
             
         position: {
-            target: context.position
+            target: $('.image'),
+            at: "top left",
+            adjust: {
+             x: context.position[0],
+             y: context.position[1]
+            }
         },
         show: {
             target: $('.image')
@@ -55,7 +60,7 @@ Template.markupItem.events({
                          }
         
     },
-    "click li.image": function(event){
+    "click .markImage": function(event){
          var context = this;          
         if(context.position){ 
     $(event.toElement).addClass('active');
@@ -69,11 +74,17 @@ Template.markupItem.events({
             target: $('.image')
         },
             position: {
-            target: context.position
-        },
+            target: $('.image'),
+            at: "top left",
+            adjust: {
+             x: context.position[0],
+             y: context.position[1]
+        }       
+            },
+            
             hide: {
             event: {
-                target: $('#'+this._id)
+                target: $('#'+context._id)
                 },
                 fixed: true,
                 leave:false

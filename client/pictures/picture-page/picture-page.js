@@ -103,8 +103,8 @@ Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.user
                $('#markup').val('');
         
  $('.image').css('cursor','pointer').click(function(event){
-            var x = event.offsetX;
-            var y = event.offsetY;
+            var x = event.pageX;
+            var y = event.pageY;
             var position = [x,y];
         $('#finish').attr('id','addMarkup');
 $('#addMarkup').show();
