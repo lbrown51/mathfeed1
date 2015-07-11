@@ -1,8 +1,12 @@
 <template name="footer">
     <footer style="background-color:#b53f51;" class="page-footer"> 
         <div class="container">
+            {{#if currentUser}}
             <a href="{{pathFor route='profile'}}" class="white-text">{{userName}}</a>
             <a href="{{pathFor route='profile'}}" id="logoutButton" class="white-text">Logout</a>
+            {{else}}
+            <a href="{{pathFor route='profile'}}" class="white-text">Not Logged In</a>
+            {{/if}}
         </div>
          <div class="footer-copyright">
             <div class="container">

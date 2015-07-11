@@ -44,14 +44,15 @@ Template.markupItem.events({
             }
         },
         show: {
-            target: $('.image')
+            ready: true
         },
         hide: {
                 event: {
                     target: $('#'+context._id)
                 },
                 fixed: true,
-                leave:false
+                leave:false,
+                resize: false
             }
             
                 
@@ -71,7 +72,7 @@ Template.markupItem.events({
            },
             
             show: {
-            target: $('.image')
+            ready: true
         },
             position: {
             target: $('.image'),
@@ -86,6 +87,7 @@ Template.markupItem.events({
             event: {
                 target: $('#'+context._id)
                 },
+                resize: false,
                 fixed: true,
                 leave:false
             },

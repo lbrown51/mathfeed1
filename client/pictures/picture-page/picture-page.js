@@ -36,7 +36,7 @@ Template.picturePage.helpers({
     },
     
     Markup: function(){
-     return Markups.find();   
+     return Markups.find({pictureId: this._id});   
     },   
     
     data: function(){
@@ -74,15 +74,13 @@ document.getElementById("pictureInput").click();
             var y = event.offsetY;
             var position = [x,y]; $('#finish').attr('id','addPictureComment');
 $('#addPictureComment').show();
-Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
+ Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
             //(data,pictureId,userId, pictureComment,position)
         $('#finished').remove();
         $('.image').css('cursor','default');
         $('.image').unbind('click');
         });
                 
-                
-
                 $('#pictureComment').val('');
             });
  
@@ -103,12 +101,12 @@ Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.user
                $('#markup').val('');
         
  $('.image').css('cursor','pointer').click(function(event){
-            var x = event.pageX;
-            var y = event.pageY;
+            var x = event.offsetX;
+            var y = event.offsetY;
             var position = [x,y];
         $('#finish').attr('id','addMarkup');
 $('#addMarkup').show();
-Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
+ Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
             //(data,pictureId,userId, pictureComment,position)
         $('#finished').remove();
         $('.image').css('cursor','default');
