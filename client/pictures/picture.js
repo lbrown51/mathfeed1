@@ -18,6 +18,14 @@ Template.picture.helpers({
     
     getPicture: function(){
         return this;
+    },
+    picturePage: function(){
+     var locArry = window.location.pathname.split('/');
+        if (locArry[1] === "give"){
+         return "givePicturePage";
+        } else {
+         return "picturePage";   
+        }
     }
 });
                              

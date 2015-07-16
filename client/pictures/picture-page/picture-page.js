@@ -44,15 +44,110 @@ Template.picturePage.helpers({
         if(typeof picture !== 'undefined'){
             return picture.data;
             }
+    },
+    
+    backToPage: function(){
+          var locArry = window.location.pathname.split('/');
+        if (locArry[1] === "give"){
+         return "solutionPage";
+        } else {
+         return "problemPage";   
+        }  
     }
 });
 
 
 
 Template.picturePage.events({
-    "click #pictureClick": function(){
+   "click .image": function(event){
+        var x = event.offsetX;
+        var y = event.offsetY;
+        var position = [x,y];
+       var context = this;
+       
+       $('.image').qtip({
+           id: "overImage",
+            content: {
+                text: $('#qtipForm')          
+            },
+            overwrite: true,
+            style: {
+               classes: 'qtip-tipsy'
+            },
+            
+        position: {
+            target: $('.image'),
+            at: "top left",
+            adjust: {
+             x: position[0],
+             y: position[1],
+            resize: false
+            }
+        },
+        show: {
+            ready: true
+        },
+        hide: {
+       
+                fixed: true,
+                leave:false,
+            }
+            
+                
+    }); 
+       
+       $('#addCommentArea').click(function(){
+        var commentArea = $("#commentForm");
+        var api = $('#qtip-overImage').qtip('api');
+           api.set('content.text',commentArea);
+           
+           $('#addComment').click(function(){
+                       var markup = $('#commentArea').val();
+               Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
+            //(data,pictureId,userId, pictureComment,position)
+               $('#commentArea').val('');
+               api.destroy();
+               $('li.collection-item').last().addClass('active');
+            
+           });
+       });
+    
+       $('#pictureInput').change(function(){
+            var files = $('#pictureInput')[0].files;
+            var fileReader = new FileReader();
+           
+            fileReader.onload = function(fileLoadedEvent){
+                 var commentArea = $("#commentForm");
+        var api = $('#qtip-overImage').qtip('api');
+           api.set('content.text',commentArea);
+            $('#addComment').after('<img src="'+ fileLoadedEvent.target.result + '">');
+            $('#addComment').click(function(){
+                       var pictureComment = $('#commentArea').val();
+                               
+ Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
+                
+               $('#commentArea').val('');
+               api.destroy();
+               $('li.collection-item').last().addClass('active');
+            
+
+            //(data,pictureId,userId, pictureComment,position)
+                                $('#pictureComment').val('');
+        });
+            };
+           
+           fileReader.readAsDataURL(files[0]);
+        });
+       
+       $('a#pictureClick').click(function(){
 document.getElementById("pictureInput").click();
+       
+       });
     },
+});
+
+Template.picturePage.events({
+    
     
      "change #pictureInput": function(){
             var files = $('#pictureInput')[0].files;
@@ -61,57 +156,8 @@ document.getElementById("pictureInput").click();
         var fileReader = new FileReader();
         var numberOfFiles = 0;
 
-        fileReader.onload = function(fileLoadedEvent){
-            $('#addPictureComment').click(function(){
-                var pictureComment = $('#pictureComment').val();
-        var addText = $('<p id="finished" class="indigo-text">Add your mark by clicking a location on the image</p>');
-        $('#addPictureComment').after(addText);
- $('#addPictureComment').attr('id','finish');
-         $('#pictureComment').val('');
-                
-                $('.image').css('cursor','pointer').click(function(event){
-            var x = event.offsetX;
-            var y = event.offsetY;
-            var position = [x,y]; $('#finish').attr('id','addPictureComment');
-$('#addPictureComment').show();
- Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
-            //(data,pictureId,userId, pictureComment,position)
-        $('#finished').remove();
-        $('.image').css('cursor','default');
-        $('.image').unbind('click');
-        });
-                
-                $('#pictureComment').val('');
-            });
- 
-            if(numberOfFiles<files.length){
- fileReader.readAsDataURL(files[numberOfFiles++]);
-            }        
-        };
         
- fileReader.readAsDataURL(files[numberOfFiles++]);
-    },
-    
-    "click #addMarkup": function(){
-        var context=this;
-        var markup = $('#markup').val();
-        var addText = $('<p id="finished" class="indigo-text">Add your mark by clicking a location on the image</p>');
-        $('#addMarkup').after(addText);
-        $('#addMarkup').attr('id','finish');
-               $('#markup').val('');
         
- $('.image').css('cursor','pointer').click(function(event){
-            var x = event.offsetX;
-            var y = event.offsetY;
-            var position = [x,y];
-        $('#finish').attr('id','addMarkup');
-$('#addMarkup').show();
- Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
-            //(data,pictureId,userId, pictureComment,position)
-        $('#finished').remove();
-        $('.image').css('cursor','default');
-        $('.image').unbind('click');
-        });
 
     },
 });

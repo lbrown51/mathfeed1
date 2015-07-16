@@ -40,7 +40,8 @@ Template.markupItem.events({
             at: "top left",
             adjust: {
              x: context.position[0],
-             y: context.position[1]
+             y: context.position[1],
+            resize: false
             }
         },
         show: {
@@ -52,7 +53,6 @@ Template.markupItem.events({
                 },
                 fixed: true,
                 leave:false,
-                resize: false
             }
             
                 
@@ -79,7 +79,9 @@ Template.markupItem.events({
             at: "top left",
             adjust: {
              x: context.position[0],
-             y: context.position[1]
+             y: context.position[1],
+            resize: false,
+
         }       
             },
             
@@ -87,7 +89,6 @@ Template.markupItem.events({
             event: {
                 target: $('#'+context._id)
                 },
-                resize: false,
                 fixed: true,
                 leave:false
             },

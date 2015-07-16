@@ -3,6 +3,7 @@ Meteor.publish("problems", function() {
 });
 
 Meteor.publish('pictures', function(problemId,pictureId){
+    console.log("publishing pictures");
     if(pictureId){
         return Pictures.find({_id:pictureId});
     } else {

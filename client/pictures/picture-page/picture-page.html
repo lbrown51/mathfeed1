@@ -4,7 +4,7 @@
     <div class="col s12 l12">
           <div class="card">
             <div class=" center-align card-content indigo-text text">
-                <span class="card-title indigo-text"><a href="{{pathFor problemPage}}" >{{problemTitle}}</a></span>
+                <span class="card-title indigo-text"><a href="{{pathFor route=backToPage}}" >{{problemTitle}}</a></span>
               <img class="image" height="515" width="650" src="{{data}}">
               </div>
               
@@ -15,37 +15,24 @@
                     {{/each}}
                     
                 </ul>
-              <div class="col s12 ">
-                <ul class="tabs">
-                    <li class="tab col s6"><a class="active" href="#commentMark">Comment</a></li>
-                    <li id="pictureClick" class="tab col s6 white-text"><a  href="#pictureMark">Picture</a></li>
-                  </ul>
             </div>
-            <div id="commentMark" class="col s12 active">
-                     <div class="input-field col s12">
-          <textarea id="markup"  style="color:#51b53f;" class="materialize-textarea"></textarea>
-          <label style="color:#51b53f;" for="comment">Add a Comment</label>
         </div>
-                    <div class="col center-align s12">
-                            <a  style="color: #51b53f;" class="indigo btn waves-effect waves-light" id="addMarkup">Add Mark
-  </a>
-                     </div>
-                 </div>
-                 
-            <div  id="pictureMark" class="col s12"> 
-                 <div class="input-field col s12">
-          <textarea id="pictureComment"  style="color:#51b53f;" class="materialize-textarea"></textarea>
-          <label style="color:#51b53f;" for="comment">Add a Comment</label>
+     </div>
+    </div>
+    <div id="qtipForm" class='row hidden'>
+        <span>
+            <a id="addCommentArea" class="waves-effect waves-light btn indigo">Comment</a>
+             <a id="pictureClick" class="waves-effect waves-light btn indigo">Picture</a>
+        </span>
+    </div>
+       
+       <input style="display:none" type="file" id="pictureInput" accept="image/*">
+    
+    <div id="commentForm" class="row hidden">
+        <div class='col s12'><textarea id='commentArea' class='materialize-textarea'></textarea>
         </div>
-                    <div class="col center-align s12">
-                            <a  style="color: #51b53f;" class="indigo btn waves-effect waves-light" id="addPictureComment">Add Mark
-  </a>
-                     </div>
-                <input style="display:none" type="file" id="pictureInput" accept="image/*"></div>
-                
-              </div>
-
-          </div>
+        <div id="addComment" class="col s12 waves-effect waves-light btn indigo">
+        <a id="addComment" class="white-text">Add</a>
         </div>
     </div>
 </template>
