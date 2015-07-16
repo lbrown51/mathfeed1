@@ -107,7 +107,7 @@ Template.picturePage.events({
             //(data,pictureId,userId, pictureComment,position)
                $('#commentArea').val('');
                api.destroy();
-               $('li.collection-item').last().addClass('active');
+               $('li.collection-item').last().trigger('click');
             
            });
        });
@@ -128,7 +128,7 @@ Template.picturePage.events({
                 
                $('#commentArea').val('');
                api.destroy();
-               $('li.collection-item').last().addClass('active');
+               $('li.collection-item').last().trigger('click');
             
 
             //(data,pictureId,userId, pictureComment,position)
