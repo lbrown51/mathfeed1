@@ -60,17 +60,25 @@ Template.picturePage.helpers({
 
 Template.picturePage.events({
    "click .image": function(event){
-        var x = event.offsetX;
+          var x = event.offsetX;
         var y = event.offsetY;
         var position = [x,y];
        var context = this;
        
+       var api = $('#qtip-overImage').qtip('api');
+       
+       if(api !== null){
+       api.set('position.adjust.x',position[0]);
+                  api.set('position.adjust.y',position[1]);
+
+       } else {
+       
+     
        $('.image').qtip({
            id: "overImage",
             content: {
-                text: $('#qtipForm')          
+                text: $('<div id="qtipForm" class="row hidden"><div id="addCommentArea" class="waves-effect waves-light btn indigo col s12">Comment</div><div id="pictureClick" class="waves-effect waves-light btn indigo col s12">Picture</div></div>')          
             },
-            overwrite: true,
             style: {
                classes: 'qtip-tipsy'
             },
@@ -91,15 +99,12 @@ Template.picturePage.events({
        
                 fixed: true,
                 leave:false,
-            }
-            
-                
-    }); 
-       
-       $('#addCommentArea').click(function(){
-        var commentArea = $("#commentForm");
-        var api = $('#qtip-overImage').qtip('api');
-           api.set('content.text',commentArea);
+            },
+           events: {
+        render: function(event,api){
+        $('#addCommentArea').click(function(){
+        var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
+        api.set('content.text',commentArea);
            
            $('#addComment').click(function(){
                        var markup = $('#commentArea').val();
@@ -111,14 +116,13 @@ Template.picturePage.events({
             
            });
        });
-    
-       $('#pictureInput').change(function(){
+          
+            $('#pictureInput').change(function(){
             var files = $('#pictureInput')[0].files;
             var fileReader = new FileReader();
            
             fileReader.onload = function(fileLoadedEvent){
-                 var commentArea = $("#commentForm");
-        var api = $('#qtip-overImage').qtip('api');
+                 var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
            api.set('content.text',commentArea);
             $('#addComment').after('<img src="'+ fileLoadedEvent.target.result + '">');
             $('#addComment').click(function(){
@@ -139,10 +143,18 @@ Template.picturePage.events({
            fileReader.readAsDataURL(files[0]);
         });
        
-       $('a#pictureClick').click(function(){
+       $('#pictureClick').click(function(){
 document.getElementById("pictureInput").click();
        
        });
+            
+        }
+           }
+            
+                
+    });     
+       
+       }
     },
 });
 
