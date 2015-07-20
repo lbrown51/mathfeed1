@@ -15,7 +15,8 @@ var picture;
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
     Meteor.subscribe('markups',this.data._id);
- Meteor.subscribe('pictures',null, this.data._id);
+    if(Pictures.find({_id:this.data._id}).count()===0){
+ Meteor.subscribe('pictures',null, this.data._id);}
  });
 
 Template.picturePage.helpers({
@@ -65,19 +66,12 @@ Template.picturePage.events({
         var position = [x,y];
        var context = this;
        
-       var api = $('#qtip-overImage').qtip('api');
-       
-       if(api !== null){
-       api.set('position.adjust.x',position[0]);
-                  api.set('position.adjust.y',position[1]);
-
-       } else {
-       
+       var api = $('#qtip-overImage').qtip('api');       
      
        $('.image').qtip({
            id: "overImage",
             content: {
-                text: $('<div id="qtipForm" class="row hidden"><div id="addCommentArea" class="waves-effect waves-light btn indigo col s12">Comment</div><div id="pictureClick" class="waves-effect waves-light btn indigo col s12">Picture</div></div>')          
+                text: $('<div id="qtipForm" class="row hidden"><div id="addCommentArea" class="waves-effect waves-light btn indigo col s12">Comment</div><div id="pictureClick" class="waves-effect waves-light btn indigo col s12">Picture</div><div id="cancelClick" class="waves-effect waves-light btn red col s12">Cancel</div></div>')          
             },
             style: {
                classes: 'qtip-tipsy'
@@ -102,10 +96,11 @@ Template.picturePage.events({
             },
            events: {
         render: function(event,api){
+            
         $('#addCommentArea').click(function(){
         var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
         api.set('content.text',commentArea);
-           
+           $('#addComment').focus();
            $('#addComment').click(function(){
                        var markup = $('#commentArea').val();
                Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
@@ -113,6 +108,7 @@ Template.picturePage.events({
                $('#commentArea').val('');
                api.destroy();
                $('li.collection-item').last().trigger('click');
+                $('li.collection-item').last().addClass('active');
             
            });
        });
@@ -122,7 +118,7 @@ Template.picturePage.events({
             var fileReader = new FileReader();
            
             fileReader.onload = function(fileLoadedEvent){
-                 var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
+                 var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a></div></div>');
            api.set('content.text',commentArea);
             $('#addComment').after('<img src="'+ fileLoadedEvent.target.result + '">');
             $('#addComment').click(function(){
@@ -133,7 +129,7 @@ Template.picturePage.events({
                $('#commentArea').val('');
                api.destroy();
                $('li.collection-item').last().trigger('click');
-            
+                 $('li.collection-item').last().addClass('active');
 
             //(data,pictureId,userId, pictureComment,position)
                                 $('#pictureComment').val('');
@@ -147,14 +143,15 @@ Template.picturePage.events({
 document.getElementById("pictureInput").click();
        
        });
-            
+         
+        $('#cancelClick').click(function(){
+          api.destroy();   
+        });
         }
            }
             
                 
     });     
-       
-       }
     },
 });
 

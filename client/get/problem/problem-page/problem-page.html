@@ -11,9 +11,40 @@
             <div class="card-action white-text">
              <a id="addPhoto" href="#"><i  class="material-icons small white-text">photo_camera</i></a>
                      <input type="file" multiple id="pictureInput" accept="image/*">
-                <a href="#"><i  class="material-icons small white-text">delete</i></a>
+                <a id="deleteButton" href="#"><i  class="material-icons small white-text">delete</i></a>
                 <a href="#" id="sendOut"><i  class="material-icons small white-text">send</i></a>
+                <a class="activator" href="#">
+                    <i class="white-text material-icons small">comment</i>
+                    </a>
             </div>
+              
+              
+              <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"><i class="material-icons small">close</i></span>
+            <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="comment" class="materialize-textarea"></textarea>
+          <label for="comment">Add a Comment</label>
+        </div>
+          <div class="col s12">
+              <div class="col offset-s2">
+                <a class="btn indigo waves-effect waves-light" id="addComment">Add Comment
+  </a>
+              </div>
+          </div>
+      </div>
+    </form>
+  </div>
+            {{pushIdForComments}}
+            <ul class="collection">
+            {{#each Comment}}
+            {{> comment}}
+            {{/each}}
+            </ul>
+        </div>
+              
           </div>
         </div>
         {{#each Picture}}

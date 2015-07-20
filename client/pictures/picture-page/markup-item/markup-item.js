@@ -10,6 +10,37 @@ Template.markupItem.onRendered(function(){
            var thisListItem = $('#'+this._id);
            thisListItem.append(this.data);}
     });
+    
+    
+    $('#'+this.data._id).dblclick(function(event){
+         event.preventDefault();
+    var id = $(event.toElement).attr('id');
+    var element = $(this);
+        if ($('#deleteBox'+id)[0]){
+            $('#deleteBox'+id).remove();
+            $('#edit'+id).remove();
+        } else {
+       
+        var deleteBox = $('<div class="waves-effect waves-light btn col s12 red" id="deleteBox'+id+'">Delete</div>');
+        element.after(deleteBox);
+        $('#deleteBox'+id).click(function(){
+           Meteor.call("deleteMarkup",id); 
+        });
+            var textInput = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ element[0].childNodes[2].data + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s12 indigo waves-effect waves-light btn">Save</div></div>');
+            element.after(textInput);
+            
+         $('#save'+id).click(function(event){
+             event.preventDefault();
+             var text = $('#editBox'+id).val();
+             element.text('');
+             element.text(text);
+             Meteor.call('updateMarkup',id,text);
+           $('#deleteBox'+id).remove();
+           $('#edit'+id).remove();
+             
+            });
+        }
+                                  });
 });
 
 Template.markupItem.helpers({
@@ -25,7 +56,7 @@ Template.markupItem.events({
     "click .comment": function(event){
         if(this.position){  $(event.toElement).addClass('active');
         var context = this;
-        var tooltip = $('#'+context._id).qtip({
+        var tooltips = $('#'+context._id).qtip({
             id: context._id,
             content: {
                 text: context.data
@@ -53,11 +84,15 @@ Template.markupItem.events({
                 },
                 fixed: true,
                 leave:false,
-            }
-            
+            },
+        events: {
+            render: function(event,api){
+
                 
-    });                                
-        
+            }
+        }               
+    });                
+                          
                          }
         
     },

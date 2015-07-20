@@ -1,6 +1,7 @@
 var problem;
 Template.problemPage.onRendered(function(){
-    Meteor.subscribe('pictures', this.data._id);
+    console.log(subs);
+    subs.subscribe('pictures', this.data._id);
 });
 
 Template.problemPage.helpers({
@@ -48,5 +49,24 @@ document.getElementById("pictureInput").click();
               Materialize.toast('Your thingy has been shared across the thingyverse', 4000);
           }
         });      
+    },
+    
+    "click #deleteButton":function(event){
+             event.preventDefault();
+        var context = this;
+    var id = $(event.toElement).attr('id');
+    var element = $(event.toElement);
+        if ($('#deleteBox'+id)[0]){
+            $('#deleteBox'+id).remove();
+        } else {
+       
+        var deleteBox = $('<div class="waves-effect waves-light btn col s12 red" id="deleteBox'+id+'">Delete</div>');
+        element.after(deleteBox);
+        $('#deleteBox'+id).click(function(){
+ Meteor.call("deleteProblem",context._id, function(){
+      Router.go('/get/');
+ }); 
+        });
     }
+}
 });
