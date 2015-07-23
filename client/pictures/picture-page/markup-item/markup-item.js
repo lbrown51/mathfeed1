@@ -11,44 +11,17 @@ Template.markupItem.onRendered(function(){
            thisListItem.append(this.data);}
     });
     
-    
-    $('#'+this.data._id).dblclick(function(event){
-         event.preventDefault();
-    var id = $(event.toElement).attr('id');
-    var element = $(this);
-        if ($('#deleteBox'+id)[0]){
-            $('#deleteBox'+id).remove();
-            $('#edit'+id).remove();
-        } else {
-       
-        var deleteBox = $('<div class="waves-effect waves-light btn col s12 red" id="deleteBox'+id+'">Delete</div>');
-        element.after(deleteBox);
-        $('#deleteBox'+id).click(function(){
-           Meteor.call("deleteMarkup",id); 
-        });
-            var textInput = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ element[0].childNodes[2].data + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s12 indigo waves-effect waves-light btn">Save</div></div>');
-            element.after(textInput);
-            
-         $('#save'+id).click(function(event){
-             event.preventDefault();
-             var text = $('#editBox'+id).val();
-             element.text('');
-             element.text(text);
-             Meteor.call('updateMarkup',id,text);
-           $('#deleteBox'+id).remove();
-           $('#edit'+id).remove();
-             
-            });
-        }
-                                  });
+
 });
+    
 
 Template.markupItem.helpers({
     isImage: function(){
         var check = this.data.substr(0,4);
         if(check === "data"){
             return true; } else { return false;}
-    }
+    },
+    
 });
 
 
@@ -87,8 +60,76 @@ Template.markupItem.events({
             },
         events: {
             render: function(event,api){
-
+$(this).hammer().bind("press",function(e){
+    
+        e.stopPropagation();
+         event.preventDefault();
+    var id = context._id;
+    var element = $(this);
+                 
+        if ($('#deleteBox'+id)[0]){
+            $('#deleteBox'+id).remove();
+            $('#edit'+id).remove();
+        } else {
+      
+            var expandedView = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ element[0].childNodes[1].childNodes[0].data + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox'+id+'">Delete</div><div class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+        $(element[0].childNodes[1]).after(expandedView);
+              $('#deleteBox'+id).click(function(){
+           Meteor.call("deleteMarkup",id);
+            api.destroy();
+        });
+            
+         $('#save'+id).click(function(event){
+             event.preventDefault();
+             var text = $('#editBox'+id).val();
+                          element[0].childNodes[1].childNodes[0].data = text;
+             Meteor.call('updateMarkup',id,text);
+           $('#edit'+id).remove();
+            });
+            
+            
+            $('#zoomIn'+id).click(function(){
+               imageArray.push(id);
+                console.log(imageArray.peek());
+            });
+        }
+        
+    });
                 
+                
+                
+                $(this).dblclick(function(e){
+        e.stopPropagation();
+         event.preventDefault();
+    var id = context._id;
+    var element = $(this);
+                 
+        if ($('#deleteBox'+id)[0]){
+            api.destroy();
+        } else {
+            var expandedView = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ element[0].childNodes[1].childNodes[0].data + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox'+id+'">Delete</div><div id="zoomIn'+id+'" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+        $(element[0].childNodes[1]).after(expandedView);
+            
+        $('#deleteBox'+id).click(function(){
+           Meteor.call("deleteMarkup",id);
+            api.destroy();
+        });
+            
+         $('#save'+id).click(function(event){
+             event.preventDefault();
+             var text = $('#editBox'+id).val();
+                          element[0].childNodes[1].childNodes[0].data = text;
+             Meteor.call('updateMarkup',id,text);
+           $('#edit'+id).remove();
+            });
+            
+            $('#zoomIn'+id).click(function(){
+               imageArray.push(id);
+                console.log(imageArray);
+            });
+        }
+        
+    });   
             }
         }               
     });                
@@ -96,11 +137,20 @@ Template.markupItem.events({
                          }
         
     },
+    
+    
+    
+    
+    
+    
+    
+    
     "click .markImage": function(event){
          var context = this;          
         if(context.position){ 
     $(event.toElement).addClass('active');
         var tooltip = $('#'+context._id).qtip({
+            id: context._id,
            content: {
                text: function(){
                    return "<p>"+context.pictureComment+"</p>" + "<img src='" + context.data + "' class='qtip-image'>";   }
@@ -125,13 +175,95 @@ Template.markupItem.events({
                 target: $('#'+context._id)
                 },
                 fixed: true,
-                leave:false
+                leave:false,           
             },
+            events:{
+                 render: function(event,api){
+                
+$(this).hammer().bind("press",function(e){
+        e.stopPropagation();
+         event.preventDefault();
+    var id = context._id;
+    var element = $(this);
+    console.log(id);
+        if ($('#deleteBox'+context._id)[0]){
+            $('#deleteBox'+context._id).remove();
+            $('#edit'+context._id).remove();
+        } else {
+       
+            var expandedView = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ element[0].childNodes[1].childNodes[0]  .childNodes[0].data + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox'+id+'">Delete</div><div id="zoomIn'+id+'" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+        $(element[0].childNodes[1]).after(expandedView);
+            
+        $('#deleteBox'+id).click(function(){
+           Meteor.call("deleteMarkup",id);
+            api.destroy();
+        });
+            
+         $('#save'+id).click(function(event){
+             event.preventDefault();
+             var text = $('#editBox'+id).val();
+                          element[0].childNodes[1].childNodes[0].data = text;
+             Meteor.call('updateMarkup',id,text);
+           $('#edit'+id).remove();
+            });
+            
+            $('#zoomIn'+id).click(function(){
+               imageArray.push(id);
+                console.log(imageArray);
+            });
+        }
+        
+    });
+                
+                     
+                     
+                     
+                     
+                     
+                     
+                $(this).dblclick(function(e){
+        e.stopPropagation();
+         event.preventDefault();
+    var id = context._id;
+    var element = $(this);
+            console.log(element);
+
+        if ($('#deleteBox'+context._id)[0]){
+            $('#deleteBox'+context._id).remove();
+            $('#edit'+context._id).remove();
+        } else {
+       
+            var expandedView = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ element[0].childNodes[1].childNodes[0].data + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox'+id+'">Delete</div><div id="zoomIn'+id+'" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+        $(element[0].childNodes[1]).after(expandedView);
+            
+        $('#deleteBox'+id).click(function(){
+           Meteor.call("deleteMarkup",id);
+            api.destroy();
+        });
+            
+         $('#save'+id).click(function(event){
+             event.preventDefault();
+             var text = $('#editBox'+id).val();
+                          element[0].childNodes[1].childNodes[0].data = text;
+             Meteor.call('updateMarkup',id,text);
+           
+           $('#edit'+id).remove();
+            
+            });
+            
+            $('#zoomIn'+id).click(function(){
+               imageArray.push(id);
+                console.log(imageArray);
+            });
+        }
+        
+    });   
+            }
+    },
             style: {
                 classes: "qtip-tipsy"
             }
-                        
-    });
+        });
                          
             }
     },

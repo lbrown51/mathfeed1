@@ -3,7 +3,7 @@ Template.header.onRendered(function(){
      closeOnClick: true   
     });
     
-ProblemsLocal = Problems;
-PicturesLocal = Pictures;
+
+
 
 });

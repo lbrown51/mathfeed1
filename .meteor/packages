@@ -15,10 +15,9 @@ accounts-base
 email
 momentjs:moment
 materialize:materialize
-meteorhacks:kadira
 meteorhacks:subs-manager
 meteorhacks:fast-render
-mquandalle:jade
-coffeescript
 fortawesome:fontawesome
 msavin:mongol
+chriswessels:hammer
+kevohagan:sweetalert

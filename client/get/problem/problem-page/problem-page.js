@@ -1,6 +1,5 @@
 var problem;
 Template.problemPage.onRendered(function(){
-    console.log(subs);
     subs.subscribe('pictures', this.data._id);
 });
 

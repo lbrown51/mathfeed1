@@ -1,4 +1,5 @@
 <template name="layout">
+    {{#HammerTouchArea gestureMap=templateGestures}}
     {{#if currentUser}}
     {{> header}}
     {{> yield}}
@@ -12,6 +13,6 @@
     {{> help}}
     {{> footer}}
     {{/if}}
-
+    {{/HammerTouchArea}}
     
 </template>

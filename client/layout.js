@@ -10,3 +10,13 @@ Template.layout.events({
     );
    }
 });
+
+Template.layout.helpers({
+    templateGestures: {
+        "swiperight div": function(){
+            $('.button-collapse').sideNav('show');
+
+        },
+        
+    }
+});

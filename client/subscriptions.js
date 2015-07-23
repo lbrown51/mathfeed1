@@ -1,2 +1,2 @@
 subs = new SubsManager();
-var returned = subs.subscribe('problems');
+var returned = Meteor.subscribe('problems');

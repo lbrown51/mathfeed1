@@ -10,13 +10,13 @@ $(window).resize(function(){
     resizeOverlay(); 
 });
 
-var context;
-var picture;
+imageArray = [];
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
-    Meteor.subscribe('markups',this.data._id);
-    if(Pictures.find({_id:this.data._id}).count()===0){
- Meteor.subscribe('pictures',null, this.data._id);}
+    subs.subscribe('markups',this.data._id);
+    
+ subs.subscribe('pictures',null, this.data._id);
+    imageArray = [];
  });
 
 Template.picturePage.helpers({
@@ -67,7 +67,9 @@ Template.picturePage.events({
        var context = this;
        
        var api = $('#qtip-overImage').qtip('api');       
-     
+     if($('#qtip-overImage')[0]){
+         api.destroy();
+     } else {
        $('.image').qtip({
            id: "overImage",
             content: {
@@ -152,22 +154,16 @@ document.getElementById("pictureInput").click();
             
                 
     });     
+         }
     },
 });
 
 Template.picturePage.events({
     
     
-     "change #pictureInput": function(){
-            var files = $('#pictureInput')[0].files;
-                var context = this;
-
-        var fileReader = new FileReader();
-        var numberOfFiles = 0;
-
-        
-        
-
+     "click #backToProblem": function(e){
+         e.preventDefault();
+         Router.go("/get/"+this.problemId);
     },
 });
 
