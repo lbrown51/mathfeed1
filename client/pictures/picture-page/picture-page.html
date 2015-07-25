@@ -1,10 +1,10 @@
 <template name="picturePage">
-                    {{employThis}}
-   <div class="row">
-    <div class="col s12 l12">
-          <div class="card">
-            <div class=" center-align card-content indigo-text text">
-                <span class="card-title indigo-text"><a id="backToProblem" href="#" >{{problemTitle}}</a></span><!--<div id="hideAll" class="waves-effect waves-light btn indigo col s2">Hide All</div>-->
+    {{employThis}}
+    <div class="row">
+        <div class="col s12 l12">
+            <div class="card">
+                <div class=" center-align card-content indigo-text text">
+                    <span class="card-title indigo-text"><a id="backToProblem" href="#" >{{problemTitle}}</a></span><!--<div id="hideAll" class="waves-effect waves-light btn indigo col s2">Hide All</div>-->
               <img class="image" height="515" width="650" src="{{data}}">
               </div>
               
@@ -14,14 +14,14 @@
                         {{> markupItem}}
                     {{/each}}
                     
-                </ul>
+                 </ul>
+             </div>
             </div>
         </div>
-     </div>
     </div>
     
        
-       <input style="display:none" type="file" id="pictureInput" accept="image/*">
+    <input style="display:none" type="file" id="pictureInput" accept="image/*">
     
-    
+
 </template>

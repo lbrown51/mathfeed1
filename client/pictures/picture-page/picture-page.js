@@ -21,6 +21,15 @@ imageArray = {"arry":[],"get": function(){
 }
 };
 
+var getCurrentImg = function(){
+    var cursor;
+    imageArray.get().forEach(function(item,number,array){
+        if(number === array.length-1){
+            cursor = item;
+        }
+    });
+    return cursor;
+};
 
 imageArrayDep = new Tracker.Dependency;
 
@@ -34,31 +43,30 @@ Template.picturePage.onRendered(function(){
 
 Template.picturePage.helpers({
     employThis: function() {
-
-       imageArray.push(this);
+        if (!getCurrentImg()){
+           imageArray.push(this);
+        }
     }
     ,
                   
     problemTitle: function(){
-     ofProblem = Problems.findOne({_id:this.problemId});
+        imageArrayDep.depend();
+     ofProblem = Problems.findOne({_id:getCurrentImg().problemId});
         if(typeof ofProblem !== 'undefined'){
         return ofProblem.title;}
     },
     
     problemId: function(){
-        ofProblem = Problems.findOne({_id:this.problemId});
+        imageArrayDep.depend();
+        ofProblem = Problems.findOne({_id:getCurrentImg().problemId});
         if(typeof ofProblem !== 'undefined'){
         return ofProblem._id;}
     },
     
     Markup: function(){
             imageArrayDep.depend();
-            var cursor;
-            imageArray.get().forEach(function(item,number,array){
-                if(number === array.length-1){
-                    cursor = item;
-                }
-            });
+            var cursor = getCurrentImg();
+            getCurrentImg();
             return Markups.find({pictureId: cursor._id});
     },
     
@@ -86,7 +94,7 @@ Template.picturePage.events({
           var x = event.offsetX;
         var y = event.offsetY;
         var position = [x,y];
-       var context = this;
+       var context = getCurrentImg();
        
        var api = $('#qtip-overImage').qtip('api');       
      if($('#qtip-overImage')[0]){
@@ -119,7 +127,7 @@ Template.picturePage.events({
                 leave:false,
             },
            events: {
-        render: function(event,api){
+               render: function (event, api) {
             
         $('#addCommentArea').click(function(){
         var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
