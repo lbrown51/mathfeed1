@@ -124,7 +124,7 @@ $(this).hammer().bind("press",function(e){
             });
             
             $('#zoomIn'+id).click(function(){
-               imageArray.push(id);
+               imageArray.push(Markups.findOne({_id:id}));
                 console.log(imageArray);
             });
         }
@@ -226,14 +226,14 @@ $(this).hammer().bind("press",function(e){
          event.preventDefault();
     var id = context._id;
     var element = $(this);
-            console.log(element);
-
+    var elementText = $(element.children().children('p')).text();
+                    
         if ($('#deleteBox'+context._id)[0]){
             $('#deleteBox'+context._id).remove();
             $('#edit'+context._id).remove();
         } else {
        
-            var expandedView = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ element[0].childNodes[1].childNodes[0].data + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox'+id+'">Delete</div><div id="zoomIn'+id+'" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+            var expandedView = $('<div id="edit'+id+'"class="row"><div class="input-field col s12"><input value="'+ elementText + '" id="editBox'+id+'" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save'+id+'" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox'+id+'">Delete</div><div id="zoomIn'+id+'" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
         $(element[0].childNodes[1]).after(expandedView);
             
         $('#deleteBox'+id).click(function(){
@@ -244,7 +244,7 @@ $(this).hammer().bind("press",function(e){
          $('#save'+id).click(function(event){
              event.preventDefault();
              var text = $('#editBox'+id).val();
-                          element[0].childNodes[1].childNodes[0].data = text;
+                     console.log(text);    $(element.children().children('p')).text(text);
              Meteor.call('updateMarkup',id,text);
            
            $('#edit'+id).remove();

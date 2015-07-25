@@ -10,19 +10,34 @@ $(window).resize(function(){
     resizeOverlay(); 
 });
 
-imageArray = [];
+imageArray = {"arry":[],"get": function(){
+    return imageArray.arry;
+},"push": function(image) {
+    this.arry.push(image);
+    imageArrayDep.changed();
+}, "pop": function(){
+    imageArray.arry.pop();
+    imageArrayDep.changed();
+}
+};
+
+
+imageArrayDep = new Tracker.Dependency;
+
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
     subs.subscribe('markups',this.data._id);
     
  subs.subscribe('pictures',null, this.data._id);
-    imageArray = [];
+
  });
 
 Template.picturePage.helpers({
-    employThis: function(){
+    employThis: function() {
 
-    },               
+       imageArray.push(this);
+    }
+    ,
                   
     problemTitle: function(){
      ofProblem = Problems.findOne({_id:this.problemId});
@@ -37,8 +52,15 @@ Template.picturePage.helpers({
     },
     
     Markup: function(){
-     return Markups.find({pictureId: this._id});   
-    },   
+            imageArrayDep.depend();
+            var cursor;
+            imageArray.get().forEach(function(item,number,array){
+                if(number === array.length-1){
+                    cursor = item;
+                }
+            });
+            return Markups.find({pictureId: cursor._id});
+    },
     
     data: function(){
         picture = Pictures.findOne({_id:this._id});     
