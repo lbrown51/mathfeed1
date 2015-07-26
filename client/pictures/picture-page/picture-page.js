@@ -86,6 +86,16 @@ Template.picturePage.helpers({
         } else {
          return "problemPage";   
         }  
+    },
+
+    contextComment: function(){
+        imageArrayDep.depend();
+        var cursor = getCurrentImg();
+        if (cursor.pictureComment){
+            return cursor.pictureComment;
+        } else if (cursor.data) {
+            return cursor.data;
+        }
     }
 });
 
@@ -93,9 +103,9 @@ Template.picturePage.helpers({
 
 Template.picturePage.events({
    "click .image": function(event){
-          var x = event.offsetX;
-        var y = event.offsetY;
-        var position = [x,y];
+       var x = event.offsetX;
+       var y = event.offsetY;
+       var position = [x,y];
        var context = getCurrentImg();
        
        var api = $('#qtip-overImage').qtip('api');       
@@ -192,7 +202,10 @@ document.getElementById("pictureInput").click();
 
 Template.picturePage.events({
     
-    
+    "click .popImage": function(){
+        $('.qtip').qtip('destroy');
+        imageArray.pop();
+    },
      "click #backToProblem": function(e){
          e.preventDefault();
          Router.go("/get/"+this.problemId);

@@ -82,6 +82,7 @@ Template.markupItem.events({
                                 $('#explore' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
+                                    $('.qtip').qtip('destroy');
                                 });
                             }
 
@@ -116,6 +117,7 @@ Template.markupItem.events({
                                 $('#explore' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
+                                    $('.qtip').qtip('destroy');
                                 });
                             }
 
@@ -188,20 +190,21 @@ Template.markupItem.events({
                                     var text = $('#editBox' + id).val();
                                     element[0].childNodes[1].childNodes[0].data = text;
                                     console.log(element);
-                                    //Meteor.call('updateMarkup',id,text);
-                                    //$('#edit'+id).remove();
+                                    Meteor.call('updateMarkup',id,text);
+                                    $('#edit'+id).remove();
                                 });
 
                                 $('#explore' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
+                                    $('.qtip').qtip('destroy');
                                 });
 
                                 $('#zoomIn' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
                                     $('.image').attr('src',$(element.children().children('img')).attr('src'));
-                                    api.destroy();
+                                    $('.qtip').qtip('destroy');
                                 });
                             }
 
@@ -242,13 +245,14 @@ Template.markupItem.events({
                                 $('#explore' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
+                                    $('.qtip').qtip('destroy');
                                 });
 
                                 $('#zoomIn' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
                                     $('.image').attr('src',$(element.children().children('img')).attr('src'));
-                                    api.destroy();
+                                    $('.qtip').qtip('destroy');
                                 });
                             }
 
