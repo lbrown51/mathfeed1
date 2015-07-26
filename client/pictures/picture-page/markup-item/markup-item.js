@@ -63,7 +63,7 @@ Template.markupItem.events({
                                 $('#edit' + id).remove();
                             } else {
 
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore'+id+'" class="col s12 waves-effect waves-light btn">Explore</div></div>');
                                 $(element[0].childNodes[1]).after(expandedView);
                                 $('#deleteBox' + id).click(function () {
                                     Meteor.call("deleteMarkup", id);
@@ -79,7 +79,7 @@ Template.markupItem.events({
                                 });
 
 
-                                $('#zoomIn' + id).click(function () {
+                                $('#explore' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
                                 });
@@ -97,7 +97,7 @@ Template.markupItem.events({
                             if ($('#deleteBox' + id)[0]) {
                                 $('#edit' + id).remove();
                             } else {
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="zoomIn' + id + '" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore' + id + '" class="col s12 waves-effect waves-light btn">Explore</div></div>');
                                 $(element[0].childNodes[1]).after(expandedView);
 
                                 $('#deleteBox' + id).click(function () {
@@ -113,7 +113,7 @@ Template.markupItem.events({
                                     $('#edit' + id).remove();
                                 });
 
-                                $('#zoomIn' + id).click(function () {
+                                $('#explore' + id).click(function () {
                                     imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
                                 });
@@ -175,7 +175,7 @@ Template.markupItem.events({
                                 $('#edit' + context._id).remove();
                             } else {
 
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="zoomIn' + id + '" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore'+id+'" class="col s12 waves-effect waves-light btn">Explore</div><div id="zoomIn' + id + '" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
                                 $(element[0].childNodes[1]).after(expandedView);
 
                                 $('#deleteBox' + id).click(function () {
@@ -192,9 +192,16 @@ Template.markupItem.events({
                                     //$('#edit'+id).remove();
                                 });
 
-                                $('#zoomIn' + id).click(function () {
-                                    imageArray.push(id);
+                                $('#explore' + id).click(function () {
+                                    imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
+                                });
+
+                                $('#zoomIn' + id).click(function () {
+                                    imageArray.push(Markups.findOne({_id: id}));
+                                    subs.subscribe('markups',id);
+                                    $('.image').attr('src',$(element.children().children('img')).attr('src'));
+                                    api.destroy();
                                 });
                             }
 
@@ -213,7 +220,7 @@ Template.markupItem.events({
                                 $('#edit' + context._id).remove();
                             } else {
 
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + elementText + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="zoomIn' + id + '" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
+                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + elementText + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore'+id+'" class="col s12 waves-effect waves-light btn">Explore</div><div id="zoomIn' + id + '" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
                                 $(element[0].childNodes[1]).after(expandedView);
 
                                 $('#deleteBox' + id).click(function () {
@@ -232,9 +239,16 @@ Template.markupItem.events({
 
                                 });
 
-                                $('#zoomIn' + id).click(function () {
-                                    imageArray.push(id);
+                                $('#explore' + id).click(function () {
+                                    imageArray.push(Markups.findOne({_id: id}));
                                     subs.subscribe('markups',id);
+                                });
+
+                                $('#zoomIn' + id).click(function () {
+                                    imageArray.push(Markups.findOne({_id: id}));
+                                    subs.subscribe('markups',id);
+                                    $('.image').attr('src',$(element.children().children('img')).attr('src'));
+                                    api.destroy();
                                 });
                             }
 

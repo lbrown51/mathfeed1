@@ -51,16 +51,18 @@ Template.picturePage.helpers({
                   
     problemTitle: function(){
         imageArrayDep.depend();
-     ofProblem = Problems.findOne({_id:getCurrentImg().problemId});
+     ofProblem = Problems.findOne({_id:this._id});
         if(typeof ofProblem !== 'undefined'){
-        return ofProblem.title;}
+                return ofProblem.title;
+        }
     },
-    
+
     problemId: function(){
         imageArrayDep.depend();
-        ofProblem = Problems.findOne({_id:getCurrentImg().problemId});
+        ofProblem = Problems.findOne({_id:this._id});
         if(typeof ofProblem !== 'undefined'){
-        return ofProblem._id;}
+           return ofProblem._id;
+        }
     },
     
     Markup: function(){
