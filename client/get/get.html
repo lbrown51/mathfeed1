@@ -3,22 +3,17 @@
     <div class="col s12">
           <div class="card">
             <div class="card-content indigo-text text">
-              <span class="card-title indigo-text">Problems</span>
-              <ul style="color:#51b53f
-" class="collapsible" data-collapsible="accordion">
-                 {{#each Problems}}
-                  {{> problem}}
-                  {{/each}}
-                </ul>
+              <span class="card-title indigo-text">Get Help</span>
               </div>
               {{> problemForm}}
-            <div class="card-action">
-                <a href="#">
-                    <i id="showAddForm" class="material-icons indigo-text small">add</i></a> 
-                <a id="delete" href="#">
-                    <i class="material-icons indigo-text small">delete</i></a> 
-            </div>
+              <a id="showAddForm" href="#"><div class="valign-wrapper col s3 center-align indigo white-text waves-effect waves card-action">
+                    <i class="material-icons">add</i><br>
+                    Add Problem
+            </div></a>
           </div>
         </div>
     </div>
+    {{#each Problems}}
+        {{> problem}}
+    {{/each}}
 </template>

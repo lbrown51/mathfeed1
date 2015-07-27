@@ -4,18 +4,11 @@
           <div class="card">
             <div class="card-content indigo-text text">
               <span class="card-title indigo-text">Needing Solutions</span>
-                  <ul style="color:#51b53f
-" class="collapsible" data-collapsible="accordion">
-                 {{#each Solution}}
-                  {{> solution}}
-                  {{/each}}
-                </ul>
               </div>
-            <div class="card-action">
-                <a href="#">
-                    <i class="material-icons indigo-text small">delete</i></a> 
-            </div>
           </div>
         </div>
     </div>
+    {{#each Solution}}
+        {{> solution}}
+    {{/each}}
 </template>
