@@ -35,8 +35,8 @@ Template.markupItem.events({
                     target: $('.image'),
                     at: "top left",
                     adjust: {
-                        x: context.position[0],
-                        y: context.position[1],
+                        x: context.position[0]*$('.image').width(),
+                        y: context.position[1]*$('.image').height(),
                         resize: false
                     }
                 },
@@ -150,8 +150,8 @@ Template.markupItem.events({
                     target: $('.image'),
                     at: "top left",
                     adjust: {
-                        x: context.position[0],
-                        y: context.position[1],
+                        x: context.position[0]*$('.image').width(),
+                        y: context.position[1]*$('.image').height(),
                         resize: false,
 
                     }

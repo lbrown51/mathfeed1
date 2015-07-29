@@ -36,8 +36,7 @@ imageArrayDep = new Tracker.Dependency;
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
     subs.subscribe('markups',this.data._id);
-    
- subs.subscribe('pictures',null, this.data._id);
+    subs.subscribe('pictures',null, this.data._id);
 
  });
 
@@ -103,8 +102,12 @@ Template.picturePage.helpers({
 
 Template.picturePage.events({
    "click .image": function(event){
-       var x = event.offsetX;
-       var y = event.offsetY;
+       var height = $('.image').height()
+       var width = $('.image').width()
+       var xPix = event.offsetX;
+       var yPix = event.offsetY;
+       var x = xPix / width;
+       var y = yPix / height;
        var position = [x,y];
        var context = getCurrentImg();
        
@@ -125,8 +128,8 @@ Template.picturePage.events({
             target: $('.image'),
             at: "top left",
             adjust: {
-             x: position[0],
-             y: position[1],
+             x: position[0]*$('.image').width(),
+             y: position[1]*$('.image').height(),
             resize: false
             }
         },
@@ -144,7 +147,7 @@ Template.picturePage.events({
         $('#addCommentArea').click(function(){
         var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
         api.set('content.text',commentArea);
-           $('#addComment').focus();
+            $('#addComment').focus();
            $('#addComment').click(function(){
                        var markup = $('#commentArea').val();
                Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
@@ -152,7 +155,7 @@ Template.picturePage.events({
                $('#commentArea').val('');
                api.destroy();
                $('li.collection-item').last().trigger('click');
-                $('li.collection-item').last().addClass('active');
+               $('li.collection-item').last().addClass('active');
             
            });
        });
@@ -205,6 +208,7 @@ Template.picturePage.events({
     "click .popImage": function(){
         $('.qtip').qtip('destroy');
         imageArray.pop();
+        //$(element.children().children('img')).attr('src',);
     },
      "click #backToProblem": function(e){
          e.preventDefault();
