@@ -4,6 +4,8 @@ accounts-oauth@1.1.5
 accounts-password@1.1.1
 aldeed:template-extension@3.4.3
 autoupdate@1.2.1
+babel-compiler@5.8.3_1
+babel-runtime@0.1.2
 babrahams:editable-json@0.4.3
 base64@1.0.3
 binary-heap@1.0.3
@@ -38,6 +40,7 @@ iron:router@1.0.9
 iron:url@1.0.9
 jquery@1.11.3_2
 json@1.0.3
+jsx@0.1.5
 kevohagan:sweetalert@1.0.0
 lai:collection-extensions@0.1.4
 launch-screen@1.0.2
