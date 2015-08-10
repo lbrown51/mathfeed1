@@ -37,7 +37,23 @@ Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
     subs.subscribe('markups',this.data._id);
     subs.subscribe('pictures',null, this.data._id);
+    var owl = $('.owl-carousel');
+    owl.owlCarousel({
+        items:1,
+        loop:true,
+        mouseDrag:false,
+        touchDrag:false,
+        pullDrag:false
 
+    });
+    $('.owl-next').click(function(){
+        owl.trigger('next.owl.carousel');
+    });
+    owl.on('next.owl.carousel',function(event){
+        console.log(event);
+    });
+
+    $('.fixed-action-btn').css({bottom:$(window).height()/2});
  });
 
 Template.picturePage.helpers({
@@ -45,6 +61,8 @@ Template.picturePage.helpers({
         if (!getCurrentImg()){
            imageArray.push(this);
         }
+
+
     }
     ,
                   
@@ -95,6 +113,10 @@ Template.picturePage.helpers({
         } else if (cursor.data) {
             return cursor.data;
         }
+    },
+
+    setImageSize: function(){
+      $('.image').height($(window).height());
     }
 });
 
@@ -118,15 +140,21 @@ Template.picturePage.events({
        $('.image').qtip({
            id: "overImage",
             content: {
-                text: $('<div id="qtipForm" class="row hidden"><div id="addCommentArea" class="waves-effect waves-light btn indigo col s12">Comment</div><div id="pictureClick" class="waves-effect waves-light btn indigo col s12">Picture</div><div id="cancelClick" class="waves-effect waves-light btn red col s12">Cancel</div></div>')          
+                text: $('<div class="row"><div class="col s12">' +
+                    '<div class="card valign-wrapper center-align">' +
+                    '<div id="pictureClick" class="card-action s6 waves-effect waves-teal valign-wrapper center-align indigo-text"><i class="material-icons small">photo_camera</i></div>' +
+                    '<div id="addCommentArea" class="card-action s6 waves-effect waves-teal valign-wrapper center-align indigo-text"><i class="material-icons small">comment</i></div>' +
+                    '<div id="cancelClick" class="card-action s12 waves-effect waves-teal valign-wrapper center-align indigo-text"><i class="material-icons small">clear</i></div>' +
+                    '</div></div></div></div>')
             },
             style: {
-               classes: 'qtip-tipsy'
+               def: false
             },
             
         position: {
             target: $('.image'),
             at: "top left",
+            my: "top center",
             adjust: {
              x: position[0]*$('.image').width(),
              y: position[1]*$('.image').height(),
@@ -136,57 +164,58 @@ Template.picturePage.events({
         show: {
             ready: true
         },
-        hide: {
-       
-                fixed: true,
-                leave:false,
-            },
+        hide: false,
            events: {
                render: function (event, api) {
-            
-        $('#addCommentArea').click(function(){
-        var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
+
+                   $('#addCommentArea').click(function(){
+        var commentArea = $('<div class="row"><div class="col s12">' +
+            '<div class="card center-align"><div class="col s12">' +
+            '<textarea id="commentArea" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text"></textarea></div>' +
+            '<div id="addComment" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
+            '<i class="material-icons small">add</i></div>' +
+            '</div></div');
+
+
         api.set('content.text',commentArea);
-            $('#addComment').focus();
+            $('#commentArea').focus();
+
            $('#addComment').click(function(){
                        var markup = $('#commentArea').val();
-               Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
+               Meteor.call('insertMarkup',null,context._id,Meteor.userId(),markup,position);
             //(data,pictureId,userId, pictureComment,position)
                $('#commentArea').val('');
                api.destroy();
-               $('li.collection-item').last().trigger('click');
-               $('li.collection-item').last().addClass('active');
-            
            });
        });
-          
-            $('#pictureInput').change(function(){
-            var files = $('#pictureInput')[0].files;
-            var fileReader = new FileReader();
-           
-            fileReader.onload = function(fileLoadedEvent){
-                 var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a></div></div>');
-           api.set('content.text',commentArea);
-            $('#addComment').after('<img src="'+ fileLoadedEvent.target.result + '">');
-            $('#addComment').click(function(){
-                       var pictureComment = $('#commentArea').val();
-                               
- Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
-                
-               $('#commentArea').val('');
-               api.destroy();
-               $('li.collection-item').last().trigger('click');
-                 $('li.collection-item').last().addClass('active');
-
-            //(data,pictureId,userId, pictureComment,position)
-                                $('#pictureComment').val('');
-        });
-            };
-           
-           fileReader.readAsDataURL(files[0]);
-        });
        
        $('#pictureClick').click(function(){
+           var commentArea =  $('<div class="row"><div class="col s12">' +
+               '<div class="card center-align"><div class="col s12">' +
+               '<textarea id="commentArea" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text"></textarea></div>' +
+               '<div id="addComment" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
+               '<i class="material-icons small">add</i></div>' +
+               '</div></div><input style="display:none" type="file" id="pictureInput" accept="image/*">');
+           api.set('content.text',commentArea);
+           $('#pictureInput').change(function(){
+               var files = $('#pictureInput')[0].files;
+               var fileReader = new FileReader();
+
+               fileReader.onload = function(fileLoadedEvent){
+                   $('#addComment').after('<img src="'+ fileLoadedEvent.target.result + '">');
+                   $('#addComment').click(function(){
+                       var pictureComment = $('#commentArea').val();
+
+                       Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
+
+                       api.destroy();
+                       //(data,pictureId,userId, pictureComment,position)
+                       $('#pictureComment').val('');
+                   });
+               };
+
+               fileReader.readAsDataURL(files[0]);
+           });
 document.getElementById("pictureInput").click();
        
        });
