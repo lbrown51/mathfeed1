@@ -1,19 +1,11 @@
 <template name="picturePage">
     {{employThis}}
-    <div class="row owl-carousel center-align">
+    <div id="picture-{{_id}}" class="row center-align">
         <div class="col s12 l12 item">
             <div class="card center-align">
                 <div class="center-align card-content indigo-text">
                     <span class="card-title indigo-text"><a id="backToProblem" href="#" >{{problemTitle}}</a></span><!--<div id="hideAll" class="waves-effect waves-light btn indigo col s2">Hide All</div>-->
-              <img id='get-problem-picture' class="image" src="{{data setImageSize}}">
-                    {{#if contextComment}}
-                    <div class="col s7 right-align indigo-text">
-                            {{contextComment}}
-                    </div>
-                    <a href="#"><div class="popImage col s2 left-align indigo-text">
-                        <i class="material-icons">expand_less</i>
-                    </div></a><br>
-                    {{/if}}
+              <img pictureId="{{_id}}" id='image-{{_id}}' class="image" src="{{data setImageSize}}">
                     </div>
              <div class="card-action">
                     {{#each Markup}}
@@ -22,9 +14,5 @@
              </div>
             </div>
         </div>
-    </div>
-    <div class="fixed-action-btn card-panel indigo-text">
-            <div class="col s6 valign-wrapper waves-effect waves-teal"><i class="material-icons medium owl-left">chevron_left</i></div>
-            <div class="col s6 valign-wrapper waves-effect waves-teal"><i class="material-icons medium owl-right">chevron_right</i></div>
     </div>
 </template>

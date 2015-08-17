@@ -1,18 +1,33 @@
-var problem;
-Template.problemPage.onRendered(function(){
-    subs.subscribe('pictures', this.data._id);
-});
+
+imageArray = {"arry":[],"get": function(){
+    return imageArray.arry;
+},"push": function(image) {
+    this.arry.push(image);
+    imageArrayDep.changed();
+}, "pop": function(){
+    imageArray.arry.pop();
+    imageArrayDep.changed();
+}
+};
+
+getCurrentImg = function(){
+    var cursor;
+    imageArray.get().forEach(function(item,number,array){
+        if(number === array.length-1){
+            cursor = item;
+        }
+    });
+    return cursor;
+};
+
+imageArrayDep = new Tracker.Dependency;
 
 Template.problemPage.helpers({
-    pushIdToPage: function(){
-        var id = this._id;
-     problem = Problems.findOne({_id:id}); 
-    },
-    Picture:function(){    
-        if(typeof problem !== "undefined"){
-        return Pictures.find({problemId:problem._id});}
+    Picture:function(){
+        subs.subscribe('pictures', this._id);
+        if(Pictures.findOne({problemId:this._id})){
+            return Pictures.find({problemId:this._id});}
     }
-    
 });
 
 
@@ -21,12 +36,13 @@ Template.problemPage.events({
 document.getElementById("pictureInput").click();
    },
     "change #pictureInput": function(){
+        var context = this;
             var files = $('#pictureInput')[0].files;
         var fileReader = new FileReader();
         var numberOfFiles = 0;
 
-        fileReader.onload = function(fileLoadedEvent){     
-    Meteor.call("insertPicture",fileLoadedEvent.target.result,problem._id,function(error,result){
+        fileReader.onload = function(fileLoadedEvent){
+    Meteor.call("insertPicture",fileLoadedEvent.target.result,context._id,function(error,result){
           if(error){
             Materialize.toast('Your photo has not been entered into the thingy because '+error, 4000);
           } else {
@@ -41,9 +57,9 @@ document.getElementById("pictureInput").click();
  fileReader.readAsDataURL(files[numberOfFiles++]);
     },
     "click #sendOut": function(){
-     Meteor.call("sendOutProblem",problem,function(error,result){
+     Meteor.call("sendOutProblem",this,function(error,result){
           if(error){
-            Materialize.toast('Your phto has not been entered into the thingy because '+error, 4000);
+            Materialize.toast('Your photo has not been entered into the thingy because '+error, 4000);
           } else {
               Materialize.toast('Your thingy has been shared across the thingyverse', 4000);
           }

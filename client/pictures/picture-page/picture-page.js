@@ -10,28 +10,6 @@ $(window).resize(function(){
     resizeOverlay(); 
 });
 
-imageArray = {"arry":[],"get": function(){
-    return imageArray.arry;
-},"push": function(image) {
-    this.arry.push(image);
-    imageArrayDep.changed();
-}, "pop": function(){
-    imageArray.arry.pop();
-    imageArrayDep.changed();
-}
-};
-
-var getCurrentImg = function(){
-    var cursor;
-    imageArray.get().forEach(function(item,number,array){
-        if(number === array.length-1){
-            cursor = item;
-        }
-    });
-    return cursor;
-};
-
-imageArrayDep = new Tracker.Dependency;
 
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
@@ -40,29 +18,38 @@ Template.picturePage.onRendered(function(){
     var owl = $('.owl-carousel');
     owl.owlCarousel({
         items:1,
-        loop:true,
         mouseDrag:false,
-        touchDrag:false,
         pullDrag:false
-
     });
     $('.owl-next').click(function(){
+        if($('.qtip')[0])$('.qtip').qtip('api').hide();
         owl.trigger('next.owl.carousel');
     });
     owl.on('next.owl.carousel',function(event){
-        console.log(event);
+
+    });
+    $('.owl-prev').click(function(){
+        if($('.qtip')[0])$('.qtip').qtip('api').hide();
+        owl.trigger('prev.owl.carousel');
+    });
+    owl.on('prev.owl.carousel',function(event){
+
     });
 
-    $('.fixed-action-btn').css({bottom:$(window).height()/2});
- });
+
+    $('.owl-navigation').hover(function(){
+        $('.owl-navigation').css('opacity',.9);
+    },function(){
+        $('.owl-navigation').css('opacity',.6);
+    });
+
+});
 
 Template.picturePage.helpers({
     employThis: function() {
         if (!getCurrentImg()){
            imageArray.push(this);
         }
-
-
     }
     ,
                   
@@ -86,7 +73,7 @@ Template.picturePage.helpers({
             imageArrayDep.depend();
             var cursor = getCurrentImg();
             getCurrentImg();
-            return Markups.find({pictureId: cursor._id});
+            return Markups.find({pictureId: this._id});
     },
     
     data: function(){
@@ -131,14 +118,14 @@ Template.picturePage.events({
        var x = xPix / width;
        var y = yPix / height;
        var position = [x,y];
-       var context = getCurrentImg();
-       
+       var context = this;
+
        var api = $('#qtip-overImage').qtip('api');       
      if($('#qtip-overImage')[0]){
          api.destroy();
      } else {
-       $('.image').qtip({
-           id: "overImage",
+         $('#image-'+context._id).qtip({
+           id: "image-"+context._id,
             content: {
                 text: $('<div class="row"><div class="col s12">' +
                     '<div class="card valign-wrapper center-align">' +
@@ -152,7 +139,7 @@ Template.picturePage.events({
             },
             
         position: {
-            target: $('.image'),
+            target: $('#image-'+context._id),
             at: "top left",
             my: "top center",
             adjust: {
@@ -167,7 +154,6 @@ Template.picturePage.events({
         hide: false,
            events: {
                render: function (event, api) {
-
                    $('#addCommentArea').click(function(){
         var commentArea = $('<div class="row"><div class="col s12">' +
             '<div class="card center-align"><div class="col s12">' +
@@ -175,7 +161,6 @@ Template.picturePage.events({
             '<div id="addComment" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
             '<i class="material-icons small">add</i></div>' +
             '</div></div');
-
 
         api.set('content.text',commentArea);
             $('#commentArea').focus();
@@ -217,7 +202,6 @@ Template.picturePage.events({
                fileReader.readAsDataURL(files[0]);
            });
 document.getElementById("pictureInput").click();
-       
        });
          
         $('#cancelClick').click(function(){
@@ -225,8 +209,6 @@ document.getElementById("pictureInput").click();
         });
         }
            }
-            
-                
     });     
          }
     },
