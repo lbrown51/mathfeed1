@@ -1,6 +1,6 @@
 <template name="problemPage">
     {{pushIdToPage}}
-    <div class="row">
+    <div class="row descriptionCard">
         <div class="col s12">
           <div class="card">
             <div class="card-content indigo-text">
@@ -24,4 +24,18 @@
                 <div class="col s6 owl-next waves-effect waves-light valign-wrapper"><i class="material-icons medium
             white-text">chevron_right</i></div>
             </div>
+
+    <div class="row commentCard">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title indigo-text">Comments</span>
+                    {{#each Markup}}
+                        {{> markupItem}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
