@@ -19,9 +19,9 @@ imageArray = {"arry":[],"get": function(){
 
 
 reloadImages = function(){
+    $('.picture').css('position','absolute');
     for (var item = 0; item < imageArray.arry.length; item++){
         var id = imageArray.arry[item]._id;
-        console.log(item);
         if (item === 0){
             $("#picture-" + id).position({
                 my: "center bottom",
@@ -70,12 +70,7 @@ imageArrayDep = new Tracker.Dependency;
 
 Template.problemPage.helpers({
     Picture:function(){
-        var pictureHandle = subs.subscribe('pictures', this._id);
-        if(pictureHandle.ready()){
-            $('.picture').css('position','absolute');
-            reloadImages();
-        }
-
+        subs.subscribe('pictures', this._id);
         if(Pictures.findOne({problemId:this._id})){
             return Pictures.find({problemId:this._id});}
     },
@@ -84,7 +79,11 @@ Template.problemPage.helpers({
         imageArrayDep.depend();
         //var cursor = getCurrentImg();
         //getCurrentImg();
-        return Markups.find({pictureId: this._id});
+        var pictureArray = [];
+            Pictures.find({problemId:this._id}).forEach(function(picture) {
+                pictureArray.push(picture._id);
+            });
+        return Markups.find({pictureId: { $in: pictureArray}});
     },
 });
 
@@ -150,4 +149,7 @@ document.getElementById("pictureInput").click();
     }
 },
 
+    "click #stackPictures": function(){
+        reloadImages();
+    }
 });

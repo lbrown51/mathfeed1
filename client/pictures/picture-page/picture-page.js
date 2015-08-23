@@ -1,7 +1,6 @@
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
-    subs.subscribe('markups',this.data._id);
-    subs.subscribe('pictures',null, this.data._id);
+    subs.subscribe('markups',Template.currentData()._id);
     var owl = $('.owl-carousel');
     owl.owlCarousel({
         items:1,
@@ -91,8 +90,7 @@ Template.picturePage.events({
    "click .image,.card": function(event){
        var parsedIndex = parseInt(imageArray.get(this._id))+1;
        var context = this;
-
-       if ($('#picture-'+context._id).hasClass('top')) {
+       if ($('#picture-'+context._id).hasClass('top') && $(event.toElement).hasClass('image')) {
            var height = $('#image-'+context._id).height()
            var width = $('#image-'+context._id).width()
            var xPix = event.offsetX;
@@ -147,10 +145,10 @@ Template.picturePage.events({
                                $('#commentArea-'+context._id).focus();
 
                                $('#addComment-'+context._id).click(function () {
-                                   var markup = $('#commentArea').val();
+                                   var markup = $('#commentArea-'+context._id).val();
                                    Meteor.call('insertMarkup', null, context._id, Meteor.userId(), markup, position);
                                    //(data,pictureId,userId, pictureComment,position)
-                                   $('#commentArea').val('');
+                                   $('#commentArea'+context._id).val('');
                                    api.destroy();
                                });
                            });

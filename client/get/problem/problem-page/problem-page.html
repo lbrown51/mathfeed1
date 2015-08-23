@@ -2,22 +2,30 @@
     {{pushIdToPage}}
     <div class="row descriptionCard">
         <div class="col s12">
-          <div class="card">
+          <div class="card center-align">
             <div class="card-content indigo-text">
               <span class="card-title indigo-text">{{title}}</span>
                 <b>{{course}}</b>
               <h6>{{description}}</h6>
             </div>
-            <div class="card-action">
-             <a id="addPhoto" href="#"><i  class="material-icons small indigo-text">photo_camera</i></a>
-                     <input type="file" multiple id="pictureInput" accept="image/*">
-                <a id="deleteButton" href="#"><i  class="material-icons small indigo-text">delete</i></a>
-                <a href="#" id="sendOut"><i  class="material-icons small indigo-text">send</i></a>
-            </div></div></div></div>
+            <div id="addPhoto" class="card-action waves-effect waves-teal">
+                <a id="addPhoto" href="#"><i  class="material-icons small indigo-text">photo_camera</i></a>
+            </div>
+              <div id="deleteButton" class="card-action waves-effect waves-teal">
+                  <a id="deleteButton" href="#"><i  class="material-icons small indigo-text">delete</i></a>
+              </div>
+              <div id="sendOut" class="card-action waves-effect waves-teal">
+                  <a href="#" id="sendOut"><i  class="material-icons small indigo-text">send</i></a>
+              </div>
+              <div id="stackPictures" class="card-action waves-effect waves-teal indigo-text"><i
+                      class="material-icons small indigo-text">photo_library</i></div>
+              <input type="file" multiple id="pictureInput" accept="image/*">
+            </div></div></div>
 
               {{#each Picture}}
                   {{> picturePage}}
               {{/each}}
+
             <div class="owl-navigation fixed-action-btn card-panel indigo white-text valign-wrapper" style="opacity:.6;">
                 <div class="col s6 owl-prev waves-effect waves-light valign-wrapper"><i class="material-icons
             medium white-text">chevron_left</i></div>
@@ -29,10 +37,14 @@
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title indigo-text">Comments</span>
-                    {{#each Markup}}
-                        {{> markupItem}}
-                    {{/each}}
+                    <div class="row">
+                        <span class="card-title indigo-text">Comments</span>
+                    </div>
+                    <div class="row center-align">
+                        {{#each Markup}}
+                            {{> markupItem}}
+                        {{/each}}
+                    </div>
                 </div>
             </div>
         </div>
