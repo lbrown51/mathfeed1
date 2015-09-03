@@ -8,6 +8,8 @@
                 <b>{{course}}</b>
               <h6>{{description}}</h6>
             </div>
+              <div id="moveLeft" class="card-action waves-effect waves-teal indigo-text"><i
+                      class="material-icons small indigo-text">chevron_left</i></div>
             <div id="addPhoto" class="card-action waves-effect waves-teal">
                 <a id="addPhoto" href="#"><i  class="material-icons small indigo-text">photo_camera</i></a>
             </div>
@@ -17,23 +19,21 @@
               <div id="sendOut" class="card-action waves-effect waves-teal">
                   <a href="#" id="sendOut"><i  class="material-icons small indigo-text">send</i></a>
               </div>
-              <div id="stackPictures" class="card-action waves-effect waves-teal indigo-text"><i
-                      class="material-icons small indigo-text">photo_library</i></div>
+              <!--<div id="stackPictures" class="card-action waves-effect waves-teal indigo-text"><i-->
+                      <!--class="material-icons small indigo-text">photo_library</i></div>-->
+              <div id="moveRight" class="card-action waves-effect waves-teal indigo-text"><i
+                      class="material-icons small indigo-text">chevron_right</i></div>
               <input type="file" multiple id="pictureInput" accept="image/*">
             </div></div></div>
+                <div id="owl-pictures" class="owl-carousel">
+                    {{#each Picture}}
+                        <div class="item">
+                            {{> picturePage}}
+                        </div>
+                    {{/each}}
+                </div>
 
-              {{#each Picture}}
-                  {{> picturePage}}
-              {{/each}}
-
-            <div class="owl-navigation fixed-action-btn card-panel indigo white-text valign-wrapper" style="opacity:.6;">
-                <div class="col s6 owl-prev waves-effect waves-light valign-wrapper"><i class="material-icons
-            medium white-text">chevron_left</i></div>
-                <div class="col s6 owl-next waves-effect waves-light valign-wrapper"><i class="material-icons medium
-            white-text">chevron_right</i></div>
-            </div>
-
-    <div class="row commentCard">
+    <div class="row commentCard ">
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
@@ -49,5 +49,4 @@
             </div>
         </div>
     </div>
-
 </template>

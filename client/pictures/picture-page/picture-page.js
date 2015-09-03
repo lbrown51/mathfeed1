@@ -1,32 +1,14 @@
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
     subs.subscribe('markups',Template.currentData()._id);
-    var owl = $('.owl-carousel');
-    owl.owlCarousel({
-        items:1,
-        mouseDrag:false,
-        pullDrag:false
-    });
-    $('.owl-next').click(function(){
+    //owl.addItem($('#picture-'+Template.currentData()._id));
+
+    $('#push-right-'+Template.currentData()._id).click(function(){
         if($('.qtip')[0])$('.qtip').qtip('api').hide();
-        owl.trigger('next.owl.carousel');
     });
-    owl.on('next.owl.carousel',function(event){
 
-    });
-    $('.owl-prev').click(function(){
+    $('#push-left-'+Template.currentData()._id).click(function(){
         if($('.qtip')[0])$('.qtip').qtip('api').hide();
-        owl.trigger('prev.owl.carousel');
-    });
-    owl.on('prev.owl.carousel',function(event){
-
-    });
-
-
-    $('.owl-navigation').hover(function(){
-        $('.owl-navigation').css('opacity',.9);
-    },function(){
-        $('.owl-navigation').css('opacity',.6);
     });
 
     //$('#image-'+this.data._id).css('position',"relative");
@@ -78,10 +60,6 @@ Template.picturePage.helpers({
             return cursor.data;
         }
     },
-
-    setImageSize: function(){
-      $('.image').height($(window).height());
-    }
 });
 
 
@@ -136,13 +114,17 @@ Template.picturePage.events({
                            $('#addCommentArea-' + context._id).click(function () {
                                var commentArea = $('<div class="row"><div class="col s12">' +
                                    '<div class="card center-align"><div class="col s12">' +
-                                   '<textarea id="commentArea-'+context._id+'" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text"></textarea></div>' +
+                                   '<textarea id="commentArea-'+context._id+'" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text mathquille-editable"></textarea>' +
+                                   '<span class="mathquill-editable">f(x)=lim(x)</span></div>'+
                                    '<div id="addComment-'+context._id+'" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
                                    '<i class="material-icons small">add</i></div>' +
                                    '</div></div');
 
                                api.set('content.text', commentArea);
                                $('#commentArea-'+context._id).focus();
+
+                               $('.mathquill-editable').mathquill('editable');
+
 
                                $('#addComment-'+context._id).click(function () {
                                    var markup = $('#commentArea-'+context._id).val();
@@ -157,6 +139,7 @@ Template.picturePage.events({
                                var commentArea = $('<div class="row"><div class="col s12">' +
                                    '<div class="card center-align"><div class="col s12">' +
                                    '<textarea id="commentArea-'+context._id+'" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text"></textarea></div>' +
+                                   '<span class="mathquill-editable">f(x)=?</span>' +
                                    '<div id="addComment-'+context._id+'" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
                                    '<i class="material-icons small">add</i></div>' +
                                    '</div></div><input style="display:none" type="file" id="pictureInput-'+context._id+'" accept="image/*">');

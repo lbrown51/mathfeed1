@@ -16,11 +16,11 @@ momentjs:moment
 materialize:materialize
 meteorhacks:subs-manager
 meteorhacks:fast-render
-fortawesome:fontawesome
-msavin:mongol
 chriswessels:hammer
 
 
 richsilv:owl-carousel
 juliancwirko:s-alert
 linto:jquery-ui
+houston:admin
+natestrauser:animate-css

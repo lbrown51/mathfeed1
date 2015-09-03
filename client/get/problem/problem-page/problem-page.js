@@ -67,6 +67,21 @@ getCurrentImg = function(){
 };
 
 imageArrayDep = new Tracker.Dependency;
+Template.problemPage.onRendered(function(){
+
+    $('#owl-pictures').owlCarousel({
+        items: 1,
+        mouseDrag: false,
+        loop:true,
+        nav:true,
+        dots: false
+    });
+
+
+    owl = $('#owl-pictures').data('owlCarousel');
+
+
+});
 
 Template.problemPage.helpers({
     Picture:function(){
@@ -151,5 +166,11 @@ document.getElementById("pictureInput").click();
 
     "click #stackPictures": function(){
         reloadImages();
-    }
+    },
+    "click #moveRight":function(){
+        owl.trigger("next.owl.carousel");
+    },
+    "click #moveLeft":function(){
+        owl.trigger("prev.owl.carousel");
+    },
 });

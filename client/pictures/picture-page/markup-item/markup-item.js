@@ -144,7 +144,7 @@ Template.markupItem.events({
     "click .deleteMark": function(event){
         event.preventDefault();
         element = $(event.toElement);
-
+        $('#qtip-'+element.attr('id')).remove();
         Meteor.call("deleteMarkup",element.attr('id'))
     },
     "click .push":function(event){

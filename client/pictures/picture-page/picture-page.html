@@ -1,18 +1,18 @@
 <template name="picturePage">
     {{employThis}}
     <div id="picture-{{_id}}" class="row center-align picture">
-        <div class="col s12 l12 item">
+        <div class="col s12 l12">
             <div class="card center-align">
                 <div class="center-align card-content indigo-text">
                     <span class="card-title indigo-text"><a id="backToProblem" href="#" >{{problemTitle}}</a></span><!--<div id="hideAll" class="waves-effect waves-light btn indigo col s2">Hide All</div>-->
               <img pictureId="{{_id}}" id='image-{{_id}}' class="image" src="{{data setImageSize}}">
                     </div>
              <div class="card-action indigo-text">
-                 <div id="stack-{{_id}}" class="push card-action s12 waves-effect waves-teal">
-                     <i class="material-icons small">filter</i>
+                 <div id="push-left-{{_id}}" class="push-left card-action s12 waves-effect waves-teal">
+                     <i class="material-icons small">arrow_back</i>
                  </div>
-                 <div id="push-{{_id}}" class="push card-action s12 waves-effect waves-teal">
-                     <i class="material-icons small">call_made</i>
+                 <div id="push-right-{{_id}}" class="push-right card-action s12 waves-effect waves-teal">
+                     <i class="material-icons small">arrow_forward</i>
                  </div>
              </div>
             </div>

@@ -1,23 +1,40 @@
 <template name="solutionPage">
         {{pushIdToPage}}
-<div class="row">
+    <div class="row descriptionCard">
         <div class="col s12">
-          <div class="card">
-            <div class="card-content indigo-text">
-              <span class="card-title indigo-text">{{title}}</span>
-                <b>{{course}}</b>
-              <h6>{{description}}</h6>
-            </div>
-            </div>
-        </div>
-    </div>
+            <div class="card center-align">
+                <div class="card-content indigo-text">
+                    <span class="card-title indigo-text">{{title}}</span>
+                    <b>{{course}}</b>
+                    <h6>{{description}}</h6>
+                </div>
+            </div></div></div>
+
     {{#each Picture}}
         {{> picturePage}}
     {{/each}}
+
     <div class="owl-navigation fixed-action-btn card-panel indigo white-text valign-wrapper" style="opacity:.6;">
         <div class="col s6 owl-prev waves-effect waves-light valign-wrapper"><i class="material-icons
             medium white-text">chevron_left</i></div>
         <div class="col s6 owl-next waves-effect waves-light valign-wrapper"><i class="material-icons medium
             white-text">chevron_right</i></div>
+    </div>
+
+    <div class="row commentCard">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <span class="card-title indigo-text">Comments</span>
+                    </div>
+                    <div class="row center-align">
+                        {{#each Markup}}
+                            {{> markupItem}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
  </template>
