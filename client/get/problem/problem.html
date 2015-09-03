@@ -1,12 +1,15 @@
 <template name="problem">
-    <div class="row">
+    <div class="row problem">
     <div class="col s12">
         <div class="card indigo-text">
             <div class="card-content">
                 <span class="card-title indigo-text">{{title}}</span>
                 <p>{{description}}</p>
             </div>
-            <a href="{{pathFor route='problemPage'}}"><div class="valign-wrapper col s3 center-align indigo white-text waves-effect waves card-action">
+            <a href="{{pathFor route='problemPage'}}"><div id="get-zoomIn" class="valign-wrapper col s12
+            center-align
+            indigo
+            white-text waves-effect waves card-action">
                 <i class="material-icons">zoom_in</i><br>
                 Zoom In
             </div></a>

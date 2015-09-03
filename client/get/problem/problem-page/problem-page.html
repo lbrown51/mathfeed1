@@ -1,54 +1,52 @@
 <template name="problemPage">
     {{pushIdToPage}}
-    <div class="row">
-        <div class="col s12 m6">
-          <div class="card indigo">
-            <div class="card-content white-text">
-              <span class="card-title">{{title}}</span>
+    <div class="row descriptionCard">
+        <div class="col s12">
+          <div class="card center-align">
+            <div class="card-content indigo-text">
+              <span class="card-title indigo-text">{{title}}</span>
                 <b>{{course}}</b>
-              <p>{{description}}</p>
+              <h6>{{description}}</h6>
             </div>
-            <div class="card-action white-text">
-             <a id="addPhoto" href="#"><i  class="material-icons small white-text">photo_camera</i></a>
-                     <input type="file" multiple id="pictureInput" accept="image/*">
-                <a id="deleteButton" href="#"><i  class="material-icons small white-text">delete</i></a>
-                <a href="#" id="sendOut"><i  class="material-icons small white-text">send</i></a>
-                <a class="activator" href="#">
-                    <i class="white-text material-icons small">comment</i>
-                    </a>
+              <div id="moveLeft" class="card-action waves-effect waves-teal indigo-text"><i
+                      class="material-icons small indigo-text">chevron_left</i></div>
+            <div id="addPhoto" class="card-action waves-effect waves-teal">
+                <a id="addPhoto" href="#"><i  class="material-icons small indigo-text">photo_camera</i></a>
             </div>
-              
-              
-              <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4"><i class="material-icons small">close</i></span>
-            <div class="row">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea id="comment" class="materialize-textarea"></textarea>
-          <label for="comment">Add a Comment</label>
-        </div>
-          <div class="col s12">
-              <div class="col offset-s2">
-                <a class="btn indigo waves-effect waves-light" id="addComment">Add Comment
-  </a>
+              <div id="deleteButton" class="card-action waves-effect waves-teal">
+                  <a id="deleteButton" href="#"><i  class="material-icons small indigo-text">delete</i></a>
               </div>
-          </div>
-      </div>
-    </form>
-  </div>
-            {{pushIdForComments}}
-            <ul class="collection">
-            {{#each Comment}}
-            {{> comment}}
-            {{/each}}
-            </ul>
+              <div id="sendOut" class="card-action waves-effect waves-teal">
+                  <a href="#" id="sendOut"><i  class="material-icons small indigo-text">send</i></a>
+              </div>
+              <!--<div id="stackPictures" class="card-action waves-effect waves-teal indigo-text"><i-->
+                      <!--class="material-icons small indigo-text">photo_library</i></div>-->
+              <div id="moveRight" class="card-action waves-effect waves-teal indigo-text"><i
+                      class="material-icons small indigo-text">chevron_right</i></div>
+              <input type="file" multiple id="pictureInput" accept="image/*">
+            </div></div></div>
+                <div id="owl-pictures" class="owl-carousel">
+                    {{#each Picture}}
+                        <div class="item">
+                            {{> picturePage}}
+                        </div>
+                    {{/each}}
+                </div>
+
+    <div class="row commentCard ">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <span class="card-title indigo-text">Comments</span>
+                    </div>
+                    <div class="row center-align">
+                        {{#each Markup}}
+                            {{> markupItem}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
         </div>
-              
-          </div>
-        </div>
-        {{#each Picture}}
-        {{> picture}}
-        {{/each}}
     </div>
 </template>

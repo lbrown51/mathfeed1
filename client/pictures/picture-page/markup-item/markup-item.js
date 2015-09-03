@@ -1,275 +1,180 @@
-Template.markupItem.onRendered(function () {
+Template.markupItem.onRendered(function(){
+    var context = Template.currentData();
+    var cardTip =     $('<div id="markup-point-' + context._id + '" class="indigo lighten-1" style="border-radius:' +
+        ' 50%;width: 15px;' +
+        ' height: 15px; opacity:.9;">');
 
-});
 
+    var position = context.position;
+    $('#card-'+context._id).qtip({
+        id:""+context._id,
+        content: {
+            text:cardTip
+        },
+        style: {
+            def: false
+        },
+        position: {
+            target: $('#image-'+context.pictureId),
+            at: "top left",
+            my: "top left",
+            adjust: {
+                x: position[0] * $('#image-'+context.pictureId).width(),
+                y: position[1] * $('#image-'+context.pictureId).height(),
+                resize: false
+            }
+        },
+        show:{
+            ready:true
+        },
+        hide:false,
+        events:{
+            render:function(){
+                var api = $('#qtip-'+context._id).qtip('api');
+                api.set('opened',false);
+                var hold = api.get('content.text');
+                $('#qtip-'+context._id).click(function(){
+                    if(!api.get('opened')) {
+                        if (context.data)cardTip = $('<div id="markup-' + context._id + '" class="row">' +
+                            '<div class="col s12">' +
+                            '<div class="card indigo-text">' +
+                            '<div class="card-content">' +
+                            '<span class="card-title indigo-text">' + context.pictureComment + '</span>' +
+                            '<img src=' + context.data + '>' +
+                            '</div></div></div>');
+                        else cardTip = $('<div id="markup-' + context._id + '" class="row">' +
+                            '<div class="col s12">' +
+                            '<div class="card indigo-text">' +
+                            '<div class="card-content">' +
+                            '<span class="card-title indigo-text">' + context.pictureComment + '</span>' +
+                            '</div></div></div>');
+                        api.set("content.text", cardTip);
+                        api.set('opened', true);
 
-Template.markupItem.helpers({
-    isImage: function () {
-        var check = this.data.substr(0, 4);
-        if (check === "data") {
-            return true;
-        } else {
-            return false;
+                    } else {
+                        api.set('content.text',hold);
+                        api.set('opened',false);
+                    }
+                });
+                $('#qtip-'+context._id).hover(function(){
+                    $('#qtip-'+context._id).css("opacity",1.0);
+                    if(context.data)cardTip=$('<div id="markup-'+context._id+'" class="row">'+
+                        '<div class="col s12">'+
+                        '<div class="card indigo-text">'+
+                        '<div class="card-content">'+
+                        '<span class="card-title indigo-text">'+context.pictureComment+'</span>'+
+                        '<img src='+context.data +'>'+
+                        '</div></div></div>');
+                    else cardTip=$('<div id="markup-'+context._id+'" class="row">'+
+                        '<div class="col s12">'+
+                        '<div class="card indigo-text">'+
+                        '<div class="card-content">'+
+                        '<span class="card-title indigo-text">'+context.pictureComment+'</span>'+
+                        '</div></div></div>');
+                    api.set('content.text',cardTip);
+                },function(){
+                    api.set('content.text',hold);
+                    $('#qtip-'+context._id).css("opacity",.9);
+                })
+            }
         }
-    },
-
+    });
 });
-
-
 Template.markupItem.events({
-    "click .comment": function (event) {
-        if (this.position) {
-            $(event.toElement).addClass('active');
-            var context = this;
-            var tooltips = $('#' + context._id).qtip({
-                id: context._id,
+    "click .markup": function(event){
+        var context = this;
+        $('#qtip-'+context._id).ready(function(){
+            $('#qtip-'+context._id).css("opacity",.9);});
+            var cardTip;
+            if(context.data)cardTip=$('<div id="markup-'+context._id+'" class="row">'+
+                '<div class="col s12">'+
+                '<div class="card indigo-text">'+
+                '<div class="card-content">'+
+                '<span class="card-title indigo-text">'+context.pictureComment+'</span>'+
+                '<img src='+context.data +'>'+
+                '<div class="col card-action s12 waves-effect waves-teal center-align indigo-text clearMark"><i class="material-icons small">clear</i>'+
+                '</div></div></div></div>');
+            else cardTip=$('<div id="markup-'+context._id+'" class="row">'+
+                '<div class="col s12">'+
+                '<div class="card indigo-text">'+
+                '<div class="card-content">'+
+                '<span class="card-title indigo-text">'+context.pictureComment+'</span>'+
+                '<div class="col card-action s12 waves-effect waves-teal center-align indigo-text clearMark"><i class="material-icons small">clear</i>'+
+                '</div></div></div></div>');
+            var position = context.position;
+            $('#card-'+this._id).qtip({
+                id:this._id,
                 content: {
-                    text: context.data
+                    text:cardTip
                 },
-                overwrite: false,
                 style: {
-                    classes: 'qtip-tipsy'
+                    def: false
                 },
-
                 position: {
-                    target: $('.image'),
+                    target: $('#image-'+context.pictureId),
                     at: "top left",
+                    my: "top left",
                     adjust: {
-                        x: context.position[0],
-                        y: context.position[1],
+                        x: position[0] * $('#image-'+context.pictureId).width(),
+                        y: position[1] * $('#image-'+context.pictureId).height(),
                         resize: false
                     }
                 },
-                show: {
-                    ready: true
+                show:{
+                    ready:true
                 },
-                hide: {
-                    event: {
-                        target: $('#' + context._id)
-                    },
-                    fixed: true,
-                    leave: false,
-                },
-                events: {
-                    render: function (event, api) {
-                        $(this).hammer().bind("press", function (e) {
+                hide:false,
+                events:{
+                    render:function(){
+                        $('#qtip-'+context._id).css("opacity",.9);
+                        $('#qtip-'+context._id).click(function(){
+                            var api = $('#qtip-'+context._id).qtip('api');
+                            api.destroy();
+                        })
 
-                            e.stopPropagation();
-                            event.preventDefault();
-                            var id = context._id;
-                            var element = $(this);
-
-                            if ($('#deleteBox' + id)[0]) {
-                                $('#edit' + id).remove();
-                            } else {
-
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore'+id+'" class="col s12 waves-effect waves-light btn">Explore</div></div>');
-                                $(element[0].childNodes[1]).after(expandedView);
-                                $('#deleteBox' + id).click(function () {
-                                    Meteor.call("deleteMarkup", id);
-                                    api.destroy();
-                                });
-
-                                $('#save' + id).click(function (event) {
-                                    event.preventDefault();
-                                    var text = $('#editBox' + id).val();
-                                    element[0].childNodes[1].childNodes[0].data = text;
-                                    Meteor.call('updateMarkup', id, text);
-                                    $('#edit' + id).remove();
-                                });
-
-
-                                $('#explore' + id).click(function () {
-                                    imageArray.push(Markups.findOne({_id: id}));
-                                    subs.subscribe('markups',id);
-                                    $('.qtip').qtip('destroy');
-                                });
-                            }
-
-                        });
-
-
-                        $(this).dblclick(function (e) {
-                            e.stopPropagation();
-                            event.preventDefault();
-                            var id = context._id;
-                            var element = $(this);
-
-                            if ($('#deleteBox' + id)[0]) {
-                                $('#edit' + id).remove();
-                            } else {
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore' + id + '" class="col s12 waves-effect waves-light btn">Explore</div></div>');
-                                $(element[0].childNodes[1]).after(expandedView);
-
-                                $('#deleteBox' + id).click(function () {
-                                    Meteor.call("deleteMarkup", id);
-                                    api.destroy();
-                                });
-
-                                $('#save' + id).click(function (event) {
-                                    event.preventDefault();
-                                    var text = $('#editBox' + id).val();
-                                    element[0].childNodes[1].childNodes[0].data = text;
-                                    Meteor.call('updateMarkup', id, text);
-                                    $('#edit' + id).remove();
-                                });
-
-                                $('#explore' + id).click(function () {
-                                    imageArray.push(Markups.findOne({_id: id}));
-                                    subs.subscribe('markups',id);
-                                    $('.qtip').qtip('destroy');
-                                });
-                            }
-
-                        });
+                        $('#qtip-'+context._id).hover(function(){
+                            $('#qtip-'+context._id).css("opacity",1.0);
+                        },function(){
+                            $('#qtip-'+context._id).css("opacity",.9);
+                        })
                     }
                 }
             });
+        },
+    "click .deleteMark": function(event){
+        event.preventDefault();
+        element = $(event.toElement);
+        $('#qtip-'+element.attr('id')).remove();
+        Meteor.call("deleteMarkup",element.attr('id'))
+    },
+    "click .push":function(event){
+        event.preventDefault();
+        var item;
+        var picture = "";
+        if(this.data){
+            picture = "<img src="+this.data+">";
 
         }
+        item = $('<div class="row"><div class="col s12">' +
+                    '<div id="owlItem-'+this._id+'"class="card indigo-text markup waves-effect waves-teal">' +
+                        '<div class="card-content"><span class="card-title indigo-text">'+this.pictureComment+'</span>' +
+                            picture +
+                        '</div>' +
+                        '<div id="'+this._id+'" class="deleteMark card-action s6 waves-effect waves-teal">' +
+                            '<i id="'+this._id+'"class="material-icons small">clear</i></div>' +
+                        '<div id="'+this._id+'"class="unPush card-action s6 waves-effect waves-teal">' +
+                            '    <i id="'+this._id+'" class="material-icons small">call_made</i></div>' +
+                    '</div></div></div>');
+        var owl = $('.owl-carousel');
+        if($('.qtip')[0])$('.qtip').qtip('api').hide();
+        owl.data('owlCarousel').addItem(item,-1);
+        //owl.trigger('add.owl.carousel', [item]);
+
+        //$("#card-"+this._id).hide("fast");
 
     },
-
-
-    "click .markImage": function (event) {
+    "click .stack": function(event){
         var context = this;
-        if (context.position) {
-            $(event.toElement).addClass('active');
-            var tooltip = $('#' + context._id).qtip({
-                id: context._id,
-                content: {
-                    text: function () {
-                        return "<p>" + context.pictureComment + "</p>" + "<img src='" + context.data + "' class='qtip-image'>";
-                    }
-                },
 
-                show: {
-                    ready: true
-                },
-                position: {
-                    target: $('.image'),
-                    at: "top left",
-                    adjust: {
-                        x: context.position[0],
-                        y: context.position[1],
-                        resize: false,
-
-                    }
-                },
-
-                hide: {
-                    event: {
-                        target: $('#' + context._id)
-                    },
-                    fixed: true,
-                    leave: false,
-                },
-                events: {
-                    render: function (event, api) {
-
-                        $(this).hammer().bind("press", function (e) {
-                            e.stopPropagation();
-                            event.preventDefault();
-                            var id = context._id;
-                            var element = $(this);
-                            console.log(id);
-                            if ($('#edit' + context._id)[0]) {
-                                $('#edit' + context._id).remove();
-                            } else {
-
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + element[0].childNodes[1].childNodes[0].childNodes[0].data + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore'+id+'" class="col s12 waves-effect waves-light btn">Explore</div><div id="zoomIn' + id + '" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
-                                $(element[0].childNodes[1]).after(expandedView);
-
-                                $('#deleteBox' + id).click(function () {
-                                    Meteor.call("deleteMarkup", id);
-                                    api.destroy();
-                                });
-
-                                $('#save' + id).click(function (event) {
-                                    event.preventDefault();
-                                    var text = $('#editBox' + id).val();
-                                    element[0].childNodes[1].childNodes[0].data = text;
-                                    console.log(element);
-                                    Meteor.call('updateMarkup',id,text);
-                                    $('#edit'+id).remove();
-                                });
-
-                                $('#explore' + id).click(function () {
-                                    imageArray.push(Markups.findOne({_id: id}));
-                                    subs.subscribe('markups',id);
-                                    $('.qtip').qtip('destroy');
-                                });
-
-                                $('#zoomIn' + id).click(function () {
-                                    imageArray.push(Markups.findOne({_id: id}));
-                                    subs.subscribe('markups',id);
-                                    $('.image').attr('src',$(element.children().children('img')).attr('src'));
-                                    $('.qtip').qtip('destroy');
-                                });
-                            }
-
-                        });
-
-
-                        $(this).dblclick(function (e) {
-                            e.stopPropagation();
-                            event.preventDefault();
-                            var id = context._id;
-                            var element = $(this);
-                            var elementText = $(element.children().children('p')).text();
-
-                            if ($('#deleteBox' + context._id)[0]) {
-                                $('#deleteBox' + context._id).remove();
-                                $('#edit' + context._id).remove();
-                            } else {
-
-                                var expandedView = $('<div id="edit' + id + '"class="row"><div class="input-field col s12"><input value="' + elementText + '" id="editBox' + id + '" id="edit" type="text" class="validate"><label class="active" for="edit">Edit Entry</label></div><div id="save' + id + '" class="col s6 indigo waves-effect waves-light btn">Save</div><div class="waves-effect waves-light btn col s6 red" id="deleteBox' + id + '">Delete</div><div id="explore'+id+'" class="col s12 waves-effect waves-light btn">Explore</div><div id="zoomIn' + id + '" class="col s12 waves-effect waves-light btn">Zoom In</div></div>');
-                                $(element[0].childNodes[1]).after(expandedView);
-
-                                $('#deleteBox' + id).click(function () {
-                                    Meteor.call("deleteMarkup", id);
-                                    api.destroy();
-                                });
-
-                                $('#save' + id).click(function (event) {
-                                    event.preventDefault();
-                                    var text = $('#editBox' + id).val();
-                                    $(element.children().children('p')).text(text);
-                                    var data = element.children().children('img')[0].currentSrc;
-                                    Meteor.call('updateMarkup',id,text,data);
-
-                                    $('#edit'+id).remove();
-
-                                });
-
-                                $('#explore' + id).click(function () {
-                                    imageArray.push(Markups.findOne({_id: id}));
-                                    subs.subscribe('markups',id);
-                                    $('.qtip').qtip('destroy');
-                                });
-
-                                $('#zoomIn' + id).click(function () {
-                                    imageArray.push(Markups.findOne({_id: id}));
-                                    subs.subscribe('markups',id);
-                                    $('.image').attr('src',$(element.children().children('img')).attr('src'));
-                                    $('.qtip').qtip('destroy');
-                                });
-                            }
-
-                        });
-                    }
-                },
-                style: {
-                    classes: "qtip-tipsy"
-                }
-            });
-
-        }
     },
-
-    "click .active": function (event) {
-        var api = $('#' + this._id).qtip('api');
-        api.destroy();
-        $(event.toElement).removeClass('active');
-    }
 });

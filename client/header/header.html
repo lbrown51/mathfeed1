@@ -1,22 +1,19 @@
 <template name="header">
-  <nav>
-    <div class="nav-wrapper">
-    <div class="row valign-wrapper">
-        <div class="col s2">
-            <a href="{{pathFor route='profile'}}" data-activates="mobile-demo" class="valign button-collapse small"><i class="material-icons">menu</i></a>
+    <nav class="pink accent-1">
+        <div class="row valign-wrapper">
+
+            <a href="{{pathFor route="profile"}}" class="col s2 center-align valign-wrapper"><div class="valign-wrapper center-align">
+                <i id="header-cake" class="material-icons
+                small">cake</i>
+            </div></a>
+            <div class="col s2 m5 l8"></div>
+            <a href="{{pathFor route='give'}}" class="valign-wrapper center-align col s3 m2 l1 waves-effect waves-light" id="header-give"><div>
+                Give Help</div></a>
+            <a href="{{pathFor route='get'}}" class="valign-wrapper center-align col s3 m2 l1 waves-effect waves-light" id="header-get" ><div>
+               Get Help</div></a>
+            <a href="{{pathFor route='help'}}" class="valign-wrapper center-align col s3 m2 l1 waves-effect waves-light" id="header-help"><div>
+                About</div></a>
         </div>
-        <div class="col s8 center-align">
-            <a href="/" class="addQtip center-align valign"><i class="material-icons small">cake</i></a>
-        </div>
-    </div>    
-         
-      <ul class="side-nav" id="mobile-demo">
-        <li><a href="{{pathFor route='give'}}">Give Help</a></li>
-        <li><a href="{{pathFor route='get'}}">Get Help</a></li>
-        <li><a href="{{pathFor route='help'}}">About</a></li>
-      </ul>
-    </div>
-  </nav>
-    
+    </nav>
           
 </template>

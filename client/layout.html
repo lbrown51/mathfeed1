@@ -1,18 +1,24 @@
 <template name="layout">
-    {{#HammerTouchArea gestureMap=templateGestures}}
+
     {{#if currentUser}}
     {{> header}}
     {{> yield}}
     {{> footer}}
+
     {{else}}
-          <nav>
-    <div class="nav-wrapper">
-      <a href="#" id="login" class="waves-effect waves-light brand-logo center">Login</a>
+          <nav class="pink accent-1">
+    <div class="nav-wrapper row">
+        <div class="col s8 offset-s2 center-align">
+            <a href="/" class="valign"><i id="header-cake" class="material-icons small">cake</i></a>
+        </div>
+        <div id="login" class="col s1 offset-s1 center-align">
+            <a href="/" class="valign"><i id="header-login" class="material-icons small animate
+            bounce">account_box</i></a>
+        </div>
     </div>
   </nav>
     {{> help}}
     {{> footer}}
+        {{activateTour}}
     {{/if}}
-    {{/HammerTouchArea}}
-    
 </template>

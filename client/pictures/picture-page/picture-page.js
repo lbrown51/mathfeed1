@@ -1,53 +1,24 @@
-var resizeOverlay = function(){
-$('canvas').width($('.image').width());
-              $('canvas').height($('.image').height());
-       var imageP = $('.image').position();
-$('canvas').css({top:imageP.top, left:imageP.left});
-       
-};
-
-$(window).resize(function(){
-    resizeOverlay(); 
-});
-
-imageArray = {"arry":[],"get": function(){
-    return imageArray.arry;
-},"push": function(image) {
-    this.arry.push(image);
-    imageArrayDep.changed();
-}, "pop": function(){
-    imageArray.arry.pop();
-    imageArrayDep.changed();
-}
-};
-
-var getCurrentImg = function(){
-    var cursor;
-    imageArray.get().forEach(function(item,number,array){
-        if(number === array.length-1){
-            cursor = item;
-        }
-    });
-    return cursor;
-};
-
-imageArrayDep = new Tracker.Dependency;
-
 Template.picturePage.onRendered(function(){
    $('ul.tabs').tabs();
-    subs.subscribe('markups',this.data._id);
-    
- subs.subscribe('pictures',null, this.data._id);
+    subs.subscribe('markups',Template.currentData()._id);
+    //owl.addItem($('#picture-'+Template.currentData()._id));
 
- });
+    $('#push-right-'+Template.currentData()._id).click(function(){
+        if($('.qtip')[0])$('.qtip').qtip('api').hide();
+    });
+
+    $('#push-left-'+Template.currentData()._id).click(function(){
+        if($('.qtip')[0])$('.qtip').qtip('api').hide();
+    });
+
+    //$('#image-'+this.data._id).css('position',"relative");
+        imageArray.push(this.data);
+});
 
 Template.picturePage.helpers({
     employThis: function() {
-        if (!getCurrentImg()){
-           imageArray.push(this);
-        }
-    }
-    ,
+
+    },
                   
     problemTitle: function(){
         imageArrayDep.depend();
@@ -64,14 +35,6 @@ Template.picturePage.helpers({
            return ofProblem._id;
         }
     },
-    
-    Markup: function(){
-            imageArrayDep.depend();
-            var cursor = getCurrentImg();
-            getCurrentImg();
-            return Markups.find({pictureId: cursor._id});
-    },
-    
     data: function(){
         picture = Pictures.findOne({_id:this._id});     
         if(typeof picture !== 'undefined'){
@@ -96,107 +59,135 @@ Template.picturePage.helpers({
         } else if (cursor.data) {
             return cursor.data;
         }
-    }
+    },
 });
 
 
 
 Template.picturePage.events({
-   "click .image": function(event){
-       var x = event.offsetX;
-       var y = event.offsetY;
-       var position = [x,y];
-       var context = getCurrentImg();
-       
-       var api = $('#qtip-overImage').qtip('api');       
-     if($('#qtip-overImage')[0]){
-         api.destroy();
-     } else {
-       $('.image').qtip({
-           id: "overImage",
-            content: {
-                text: $('<div id="qtipForm" class="row hidden"><div id="addCommentArea" class="waves-effect waves-light btn indigo col s12">Comment</div><div id="pictureClick" class="waves-effect waves-light btn indigo col s12">Picture</div><div id="cancelClick" class="waves-effect waves-light btn red col s12">Cancel</div></div>')          
-            },
-            style: {
-               classes: 'qtip-tipsy'
-            },
-            
-        position: {
-            target: $('.image'),
-            at: "top left",
-            adjust: {
-             x: position[0],
-             y: position[1],
-            resize: false
-            }
-        },
-        show: {
-            ready: true
-        },
-        hide: {
-       
-                fixed: true,
-                leave:false,
-            },
-           events: {
-               render: function (event, api) {
-            
-        $('#addCommentArea').click(function(){
-        var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a?</div></div>');
-        api.set('content.text',commentArea);
-           $('#addComment').focus();
-           $('#addComment').click(function(){
-                       var markup = $('#commentArea').val();
-               Meteor.call('insertMarkup',markup,context._id,Meteor.userId(),null,position);
-            //(data,pictureId,userId, pictureComment,position)
-               $('#commentArea').val('');
-               api.destroy();
-               $('li.collection-item').last().trigger('click');
-                $('li.collection-item').last().addClass('active');
-            
-           });
-       });
-          
-            $('#pictureInput').change(function(){
-            var files = $('#pictureInput')[0].files;
-            var fileReader = new FileReader();
-           
-            fileReader.onload = function(fileLoadedEvent){
-                 var commentArea = $('<div id="commentForm" class="row hidden"><div class="col s12"><textarea id="commentArea" class="materialize-textarea"></textarea></div><div id="addComment" class="col s12 waves-effect waves-light btn indigo"><a id="addComment" class="white-text">Add</a></div></div>');
-           api.set('content.text',commentArea);
-            $('#addComment').after('<img src="'+ fileLoadedEvent.target.result + '">');
-            $('#addComment').click(function(){
-                       var pictureComment = $('#commentArea').val();
-                               
- Meteor.call('insertMarkup',fileLoadedEvent.target.result,context._id,Meteor.userId(),pictureComment,position);
-                
-               $('#commentArea').val('');
-               api.destroy();
-               $('li.collection-item').last().trigger('click');
-                 $('li.collection-item').last().addClass('active');
+   "click .image,.card": function(event){
+       var parsedIndex = parseInt(imageArray.get(this._id))+1;
+       var context = this;
+       if ($('#picture-'+context._id).hasClass('top') && $(event.toElement).hasClass('image')) {
+           var height = $('#image-'+context._id).height()
+           var width = $('#image-'+context._id).width()
+           var xPix = event.offsetX;
+           var yPix = event.offsetY;
+           var x = xPix / width;
+           var y = yPix / height;
+           var position = [x, y];
 
-            //(data,pictureId,userId, pictureComment,position)
-                                $('#pictureComment').val('');
-        });
-            };
-           
-           fileReader.readAsDataURL(files[0]);
-        });
-       
-       $('#pictureClick').click(function(){
-document.getElementById("pictureInput").click();
-       
-       });
-         
-        $('#cancelClick').click(function(){
-          api.destroy();   
-        });
-        }
+           var api = $('#qtip-image-'+context._id).qtip('api');
+           if ($('#qtip-image-'+context._id)[0]) {
+               api.destroy();
+           } else {
+               $('#image-' + context._id).qtip({
+                   id: "image-" + context._id,
+                   content: {
+                       text: $('<div class="row"><div class="col s12">' +
+                           '<div class="card valign-wrapper center-align">' +
+                           '<div id="pictureClick-'+context._id+'" class="card-action s6 waves-effect waves-teal valign-wrapper center-align indigo-text"><i class="material-icons small">photo_camera</i></div>' +
+                           '<div id="addCommentArea-'+context._id+'" class="card-action s6 waves-effect waves-teal valign-wrapper center-align indigo-text"><i class="material-icons small">comment</i></div>' +
+                           '<div id="cancelClick-'+context._id+'" class="card-action s12 waves-effect waves-teal valign-wrapper center-align indigo-text"><i class="material-icons small">clear</i></div>' +
+                           '</div></div></div></div>')
+                   },
+                   style: {
+                       def: false
+                   },
+
+                   position: {
+                       target: $('#image-' + context._id),
+                       at: "top left",
+                       my: "top center",
+                       adjust: {
+                           x: position[0] * $('.image').width(),
+                           y: position[1] * $('.image').height(),
+                           resize: false
+                       }
+                   },
+                   show: {
+                       ready: true
+                   },
+                   hide: false,
+                   events: {
+                       render: function (event, api) {
+                           $('#addCommentArea-' + context._id).click(function () {
+                               var commentArea = $('<div class="row"><div class="col s12">' +
+                                   '<div class="card center-align"><div class="col s12">' +
+                                   '<textarea id="commentArea-'+context._id+'" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text mathquille-editable"></textarea>' +
+                                   '<span class="mathquill-editable">f(x)=lim(x)</span></div>'+
+                                   '<div id="addComment-'+context._id+'" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
+                                   '<i class="material-icons small">add</i></div>' +
+                                   '</div></div');
+
+                               api.set('content.text', commentArea);
+                               $('#commentArea-'+context._id).focus();
+
+                               $('.mathquill-editable').mathquill('editable');
+
+
+                               $('#addComment-'+context._id).click(function () {
+                                   var markup = $('#commentArea-'+context._id).val();
+                                   Meteor.call('insertMarkup', null, context._id, Meteor.userId(), markup, position);
+                                   //(data,pictureId,userId, pictureComment,position)
+                                   $('#commentArea'+context._id).val('');
+                                   api.destroy();
+                               });
+                           });
+
+                           $('#pictureClick-'+context._id).click(function () {
+                               var commentArea = $('<div class="row"><div class="col s12">' +
+                                   '<div class="card center-align"><div class="col s12">' +
+                                   '<textarea id="commentArea-'+context._id+'" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text"></textarea></div>' +
+                                   '<span class="mathquill-editable">f(x)=?</span>' +
+                                   '<div id="addComment-'+context._id+'" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
+                                   '<i class="material-icons small">add</i></div>' +
+                                   '</div></div><input style="display:none" type="file" id="pictureInput-'+context._id+'" accept="image/*">');
+                               api.set('content.text', commentArea);
+                               $('#pictureInput-'+context._id).change(function () {
+                                   var files = $('#pictureInput-'+context._id)[0].files;
+                                   var fileReader = new FileReader();
+
+                                   fileReader.onload = function (fileLoadedEvent) {
+                                       $('#addComment-'+context._id).after('<img src="' + fileLoadedEvent.target.result + '">');
+                                       $('#addComment-'+context._id).click(function () {
+                                           var pictureComment = $('#commentArea').val();
+
+                                           Meteor.call('insertMarkup', fileLoadedEvent.target.result, context._id, Meteor.userId(), pictureComment, position);
+
+                                           api.destroy();
+                                           //(data,pictureId,userId, pictureComment,position)
+                                           $('#pictureComment').val('');
+                                       });
+                                   };
+
+                                   fileReader.readAsDataURL(files[0]);
+                               });
+                               var pictureInputId = "pictureInput-"+context._id;
+                               document.getElementById(pictureInputId).click();
+                           });
+                           $('#cancelClick-'+context._id).click(function () {
+                               api.destroy();
+                           });
+                       }
+                   }
+               });
            }
-            
-                
-    });     
-         }
+       } else {
+           var fromLevel = parsedIndex*10;
+           var toLevel = (imageArray.arry.length)*10;
+           var topElement = $('.top');
+           topElement.zIndex(fromLevel).removeClass('top');
+           $("#picture-"+context._id).zIndex(toLevel).addClass("top");
+
+
+           $('.picture:not(#picture-'+context._id+')').click(function(){
+               $(".picture").removeClass('top');
+           topElement.zIndex(toLevel).addClass("top");
+               $("#picture-"+context._id).zIndex(fromLevel);
+           });
+
+       }
     },
 });
 
@@ -205,6 +196,7 @@ Template.picturePage.events({
     "click .popImage": function(){
         $('.qtip').qtip('destroy');
         imageArray.pop();
+        //$(element.children().children('img')).attr('src',);
     },
      "click #backToProblem": function(e){
          e.preventDefault();

@@ -1,10 +1,15 @@
 <template name="markupItem">
-    <div class="collection-item col s12">
-        <li id="{{_id}}" class="collection-item {{#if isImage}} markImage {{else}} comment {{/if}}">
-        {{#if pictureComment}}
-        {{pictureComment}}
-        {{else}}
-        {{data}}
-        {{/if}}</li>
-    </div>
+        <div class="col s6 l3">
+            <div id="card-{{_id}}" class="card indigo-text markup waves-effect waves-teal">
+                <div class="card-content">
+                    <span class="card-title indigo-text">{{pictureComment}}</span>
+                    {{#if data}}
+                       <p>[Has Picture. Zoom in to view.]</p>
+                    {{/if}}
+                </div>
+                <div id="{{_id}}" class="deleteMark card-action s12 waves-effect waves-teal">
+                    <i id="{{_id}}" class="material-icons small">clear</i>
+                </div>
+            </div>
+        </div>
 </template>

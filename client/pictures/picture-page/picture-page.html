@@ -1,34 +1,21 @@
 <template name="picturePage">
     {{employThis}}
-    <div class="row">
+    <div id="picture-{{_id}}" class="row center-align picture">
         <div class="col s12 l12">
-            <div class="card">
-                <div class=" center-align card-content indigo-text text">
+            <div class="card center-align">
+                <div class="center-align card-content indigo-text">
                     <span class="card-title indigo-text"><a id="backToProblem" href="#" >{{problemTitle}}</a></span><!--<div id="hideAll" class="waves-effect waves-light btn indigo col s2">Hide All</div>-->
-              <img class="image" height="515" width="650" src="{{data}}">
-                    {{#if contextComment}}
-                    <div class="col s7 right-align indigo-text">
-                            {{contextComment}}
+              <img pictureId="{{_id}}" id='image-{{_id}}' class="image" src="{{data setImageSize}}">
                     </div>
-                    <a href="#"><div class="popImage col s2 left-align indigo-text">
-                        <i class="material-icons">expand_less</i>
-                    </div></a><br>
-                    {{/if}}
-              </div>
-             <div class="card-action">
-                 <ul class="collection">
-                    {{#each Markup}}
-                        {{> markupItem}}
-                    {{/each}}
-                    
-                 </ul>
+             <div class="card-action indigo-text">
+                 <div id="push-left-{{_id}}" class="push-left card-action s12 waves-effect waves-teal">
+                     <i class="material-icons small">arrow_back</i>
+                 </div>
+                 <div id="push-right-{{_id}}" class="push-right card-action s12 waves-effect waves-teal">
+                     <i class="material-icons small">arrow_forward</i>
+                 </div>
              </div>
             </div>
         </div>
     </div>
-    
-       
-    <input style="display:none" type="file" id="pictureInput" accept="image/*">
-    
-
 </template>

@@ -8,7 +8,6 @@ meteor-platform
 iron:router
 check
 accounts-password
-sacha:spin
 service-configuration
 accounts-google
 accounts-base
@@ -17,8 +16,11 @@ momentjs:moment
 materialize:materialize
 meteorhacks:subs-manager
 meteorhacks:fast-render
-fortawesome:fontawesome
-msavin:mongol
 chriswessels:hammer
-kevohagan:sweetalert
-reactive-var
+
+
+richsilv:owl-carousel
+juliancwirko:s-alert
+linto:jquery-ui
+houston:admin
+natestrauser:animate-css
