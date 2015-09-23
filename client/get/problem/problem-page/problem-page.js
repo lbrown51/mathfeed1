@@ -69,7 +69,7 @@ getCurrentImg = function(){
 imageArrayDep = new Tracker.Dependency;
 Template.problemPage.onRendered(function(){
 
-    $('#owl-pictures').owlCarousel({
+  /*  $('#owl-pictures').owlCarousel({
         items: 1,
         mouseDrag: false,
         loop:true,
@@ -78,7 +78,7 @@ Template.problemPage.onRendered(function(){
     });
 
 
-    owl = $('#owl-pictures').data('owlCarousel');
+   owl = $('#owl-pictures').data('owlCarousel'); */
 
 
 });

@@ -69,8 +69,8 @@ Template.picturePage.events({
        var parsedIndex = parseInt(imageArray.get(this._id))+1;
        var context = this;
        if ($('#picture-'+context._id).hasClass('top') && $(event.toElement).hasClass('image')) {
-           var height = $('#image-'+context._id).height()
-           var width = $('#image-'+context._id).width()
+           var height = $('#image-'+context._id).height();
+           var width = $('#image-'+context._id).width();
            var xPix = event.offsetX;
            var yPix = event.offsetY;
            var x = xPix / width;
@@ -114,15 +114,16 @@ Template.picturePage.events({
                            $('#addCommentArea-' + context._id).click(function () {
                                var commentArea = $('<div class="row"><div class="col s12">' +
                                    '<div class="card center-align"><div class="col s12">' +
-                                   '<textarea id="commentArea-'+context._id+'" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text mathquille-editable"></textarea>' +
-                                   '<span class="mathquill-editable">f(x)=lim(x)</span></div>'+
+                                   '<textarea id="commentArea-'+context._id+'" style="font-size:18px; line-height:20px;border-bottom-style: none;" class="materialize-textarea indigo-text">' +
+                                   '</textarea>' +
+                                   '<span class="mathquill-editable" style>f(x)=lim(x)</span></div>'+
                                    '<div id="addComment-'+context._id+'" class="col s12 waves-effect waves-teal valign-wrapper center-align indigo-text">' +
                                    '<i class="material-icons small">add</i></div>' +
                                    '</div></div');
 
                                api.set('content.text', commentArea);
                                $('#commentArea-'+context._id).focus();
-
+                               $('.mathquill-editable').css('font-size',15).width(150).height(30);
                                $('.mathquill-editable').mathquill('editable');
 
 

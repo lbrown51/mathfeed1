@@ -1,6 +1,6 @@
 Template.markupItem.onRendered(function(){
     var context = Template.currentData();
-    var cardTip =     $('<div id="markup-point-' + context._id + '" class="indigo lighten-1" style="border-radius:' +
+    var cardTip =     $('<div id="markup-point-' + context._id + '" class="red accent-4" style="border-radius:' +
         ' 50%;width: 15px;' +
         ' height: 15px; opacity:.9;">');
 

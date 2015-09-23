@@ -31,7 +31,7 @@ createTourItemContent = function(title, description){
                 '</div>'+
             '</div>'+
         '</div>');
-}
+};
 createTourItem = function(item,orientation,placement,title,description,next,prev,tourItems,extraFunction){
     $('#'+item).qtip({
         content: {
@@ -89,7 +89,7 @@ createTourItem = function(item,orientation,placement,title,description,next,prev
             }
         }
     });
-}
+};
 
 tourItems =     [
     ["header-login","top right","bottom center","Login Button","Click this to login to your" +
@@ -112,7 +112,7 @@ tourItems =     [
     ["get-problem-picture","bottom center","center","Picture","This picture would be of some work you've done. Here you will interact with other people in order to solve your problems. We'll open the picture option and you can insert another picture.",function(){
         var height = $('.image').height()/2;
         var width = $('.image').width()/2;
-        var event = $.Event('click')
+        var event = $.Event('click');
         event.offsetX = width;
         event.offsetY = height;
         $('.image').trigger(event);
@@ -128,8 +128,8 @@ tourItems =     [
 ];
 
 Template.layout.onRendered(function(){
-    //createTourItem(tourItems[0][0], tourItems[0][1], tourItems[0][2], tourItems[0][3], tourItems[0][4], -1, 1,
-    // tourItems, tourItems[0][5]);
+    //createTourItem(tourItems[1][0], tourItems[1][1], tourItems[1][2], tourItems[1][3], tourItems[1][4], 0, 2,
+    // tourItems, tourItems[1][5]);
     function deletePhoto(photoId) {
         swal({
             title: "Are you sure?",
@@ -151,5 +151,5 @@ Template.layout.onRendered(function(){
                     swal("Oops", "We couldn't connect to the server!", "error");
                 });
         });
-    };
+    }
     });

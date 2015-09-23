@@ -8,8 +8,6 @@
                 <b>{{course}}</b>
               <h6>{{description}}</h6>
             </div>
-              <div id="moveLeft" class="card-action waves-effect waves-teal indigo-text"><i
-                      class="material-icons small indigo-text">chevron_left</i></div>
             <div id="addPhoto" class="card-action waves-effect waves-teal">
                 <a id="addPhoto" href="#"><i  class="material-icons small indigo-text">photo_camera</i></a>
             </div>
@@ -21,11 +19,9 @@
               </div>
               <!--<div id="stackPictures" class="card-action waves-effect waves-teal indigo-text"><i-->
                       <!--class="material-icons small indigo-text">photo_library</i></div>-->
-              <div id="moveRight" class="card-action waves-effect waves-teal indigo-text"><i
-                      class="material-icons small indigo-text">chevron_right</i></div>
               <input type="file" multiple id="pictureInput" accept="image/*">
             </div></div></div>
-                <div id="owl-pictures" class="owl-carousel">
+                <div>
                     {{#each Picture}}
                         <div class="item">
                             {{> picturePage}}
